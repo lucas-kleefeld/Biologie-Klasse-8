@@ -429,3 +429,10 @@ tbody th { background: color-mix(in srgb, var(--farbe-hell) 50%, var(--flaeche))
 .mk-leiter svg { min-width: 34rem; }
 .mk-leitertext { margin: 0.75rem 0 0; font-size: 1.05rem; }
 .mk-groesse-raster > *, .mk > * { min-width: 0; }
+.mk-feld.em { background: #1a1e21; border-radius: var(--radius); }
+.mk-feld.em .mk-okularrand { display: none; }
+.mk-geraetwahl button { font-weight: 700; }
+.mk-strahl { stroke: var(--methylenblau); stroke-width: 2; stroke-dasharray: 4 5; fill: none; }
+.mk-strahlkegel { fill: color-mix(in srgb, var(--methylenblau) 22%, transparent); }
+h1, h2 { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
+.uebung-kopf h1 { min-width: 0; }
