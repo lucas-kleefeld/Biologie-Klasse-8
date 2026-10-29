@@ -30,4 +30,5 @@ Gemeinsames Design und die Übungsbausteine liegen in `assets/`.
 
 - Die Seiten laden keine externen Inhalte: Schriften und Skripte liegen im Repository selbst. Es werden keine Daten gespeichert oder übertragen, eine Anmeldung ist nicht nötig.
 - Texte, Aufgaben, Grafiken und Modelle sind eigens für dieses Repository erstellt.
-- Verwendete Schriften: Atkinson Hyperlegible und Bricolage Grotesque, beide unter der SIL Open Font License (siehe `assets/fonts/`).
+- Verwendete Schriften: Atkinson Hyperlegible, Bricolage Grotesque und Caveat, alle unter der SIL Open Font License (siehe `assets/fonts/`).
+- Alle Zeichnungen sind eigens erstellt und direkt in die Seiten eingebettet.
