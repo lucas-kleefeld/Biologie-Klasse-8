@@ -367,3 +367,65 @@ tbody th { background: color-mix(in srgb, var(--farbe-hell) 50%, var(--flaeche))
 }
 
 .nur-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Virtuelles Mikroskop ---------- */
+.ausbrechen { width: min(100vw - 32px, 72rem); position: relative; left: 50%; transform: translateX(-50%); }
+.mk { display: grid; gap: 1.25rem; margin: 1.5rem 0 2.5rem; grid-template-areas: "blick" "steuerung" "geraet"; }
+@media (min-width: 62rem) {
+  .mk { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-areas: "steuerung blick" "geraet blick"; align-items: start; }
+  .mk-blick { position: sticky; top: 1rem; }
+}
+.mk-blick { grid-area: blick; }
+.mk-steuerung { grid-area: steuerung; }
+.mk-geraet { grid-area: geraet; }
+.mk-steuerung, .mk-geraet { background: var(--flaeche); border: 2px solid var(--tinte); border-radius: var(--radius-gross); padding: 1rem 1.15rem; }
+.mk-geraet { padding: 0.75rem 0.5rem; }
+.mk-steuerung fieldset { border: 0; margin: 0 0 1.1rem; padding: 0; min-width: 0; }
+.mk-steuerung fieldset:last-child { margin-bottom: 0; }
+.mk-steuerung legend { font-family: var(--schrift-titel); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; padding: 0; }
+.mk-steuerung .legende { margin: 0.5rem 0 0; }
+.mk-praeptext { min-height: 3em; }
+.mk-steuerung input[type="range"] { width: 100%; accent-color: var(--farbe); }
+.mk-schalter label { display: inline-flex; align-items: center; gap: 0.4rem; margin-right: 1.2rem; }
+.mk-schalter input { width: 1.1rem; height: 1.1rem; accent-color: var(--farbe); }
+.mk-ring { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--ring); border: 1.5px solid var(--tinte); margin-right: 0.35rem; vertical-align: -0.05em; }
+
+.mk-feld { position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 36rem; margin-inline: auto; background: #0e1216; border-radius: var(--radius-gross); border: 2px solid var(--tinte); overflow: hidden; touch-action: none; cursor: grab; }
+.mk-feld.zieht { cursor: grabbing; }
+.mk-feld canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.mk-okularrand { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle closest-side, transparent 0 86%, rgba(14, 18, 22, 0.28) 93%, #0e1216 97.2%); }
+.mk-bedienung { text-align: center; margin: 0.5rem 0 0; }
+.mk-werte { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; margin-top: 0.8rem; text-align: center; }
+.mk-wert { display: flex; flex-direction: column; align-items: center; }
+.mk-wert strong { font-family: var(--schrift-titel); font-size: 1.5rem; line-height: 1.2; }
+.mk-wert.gross strong { font-family: var(--schrift-hand); font-size: 3rem; line-height: 1; color: var(--farbe); }
+.mk-erkennbar { text-align: center; margin: 0.6rem auto 0; max-width: 34rem; }
+.mk-hinweis { margin: 0.6rem auto 0; max-width: 34rem; padding: 0.5rem 0.9rem; background: var(--notiz); border-radius: var(--radius-klein); text-align: center; font-size: 1rem; }
+
+.mk-geraet .mk-licht { fill: color-mix(in srgb, var(--ill-gelb) 75%, transparent); }
+.mk-revolver { transform-box: view-box; transform-origin: 230px 178px; transition: transform 0.45s ease; }
+.mk-obj { cursor: pointer; }
+.mk-obj.aktiv rect.s { stroke-width: 3.4; }
+.mk-feinmarke { transform-box: view-box; transform-origin: 372px 318px; transition: transform 0.2s ease; }
+.mk-tisch { transition: transform 0.2s ease; }
+
+.mk-groesse { background: var(--flaeche); border: 2px solid var(--tinte); border-radius: var(--radius-gross); padding: clamp(1rem, 3vw, 1.75rem); }
+.mk-groesse h2 { margin-top: 0; }
+.mk-groesse .hinweis { color: var(--tinte-weich); max-width: 46rem; }
+.mk-groesse-raster { display: grid; gap: 1.25rem; align-items: start; }
+@media (min-width: 62rem) { .mk-groesse-raster { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); } }
+.mk-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.mk-liste li { margin: 0; }
+.mk-liste button {
+  font: inherit; text-align: left; width: 100%; cursor: pointer; display: grid; gap: 0.1rem;
+  padding: 0.6rem 0.85rem; border-radius: var(--radius); border: 2px solid var(--linie); background: var(--papier); color: var(--tinte);
+}
+.mk-liste button:hover { border-color: var(--farbe); }
+.mk-liste button[aria-pressed="true"] { border-color: var(--tinte); background: var(--farbe-hell); box-shadow: 3px 3px 0 var(--farbe); }
+.mk-name { font-weight: 700; }
+.mk-wirklich, .mk-schein { font-size: 0.95rem; color: var(--tinte-weich); }
+.mk-schein { color: var(--tinte); }
+.mk-leiter { overflow-x: auto; }
+.mk-leiter svg { min-width: 34rem; }
+.mk-leitertext { margin: 0.75rem 0 0; font-size: 1.05rem; }
+.mk-groesse-raster > *, .mk > * { min-width: 0; }
