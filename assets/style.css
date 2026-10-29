@@ -1,0 +1,402 @@
+/* =========================================================
+   Biologie Klasse 8 – gemeinsames Design
+   Idee: Laborheft auf Millimeterpapier. Jede Unterrichtsreihe
+   hat eine eigene "Färbung" wie ein mikroskopisches Präparat.
+   ========================================================= */
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("fonts/AtkinsonHyperlegible-Italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/BricolageGrotesque-Bold.woff") format("woff");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/BricolageGrotesque-ExtraBold.woff") format("woff");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* Grundfarben */
+  --papier: #f5f8f7;
+  --papier-tief: #e9efed;
+  --flaeche: #ffffff;
+  --tinte: #1c2733;
+  --tinte-weich: #4f5b67;
+  --linie: #cfd9d6;
+  --raster: rgba(46, 90, 166, 0.07);
+
+  /* Färbungen der Reihen (nach klassischen Färbemitteln) */
+  --methylenblau: #2e5aa6;
+  --eosin: #b3305f;
+  --malachit: #17785e;
+  --bernstein: #9a5a0c;
+
+  --richtig: #1f7a45;
+  --richtig-hell: #e3f3e8;
+  --falsch: #b42a2a;
+  --falsch-hell: #fbe7e6;
+
+  --farbe: var(--methylenblau);
+  --farbe-hell: color-mix(in srgb, var(--farbe) 10%, var(--flaeche));
+
+  --schrift-text: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --schrift-titel: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+
+  --radius-klein: 6px;
+  --radius: 12px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papier: #131a21;
+    --papier-tief: #1a232c;
+    --flaeche: #1d2730;
+    --tinte: #e8eef0;
+    --tinte-weich: #a9b5bf;
+    --linie: #33414d;
+    --raster: rgba(140, 170, 230, 0.06);
+    --methylenblau: #7fa4ec;
+    --eosin: #ec86ab;
+    --malachit: #5cc7a4;
+    --bernstein: #e2a557;
+    --richtig: #6fd197;
+    --richtig-hell: #1b3326;
+    --falsch: #f08b8b;
+    --falsch-hell: #3a1f20;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papier: #131a21; --papier-tief: #1a232c; --flaeche: #1d2730;
+  --tinte: #e8eef0; --tinte-weich: #a9b5bf; --linie: #33414d;
+  --raster: rgba(140, 170, 230, 0.06);
+  --methylenblau: #7fa4ec; --eosin: #ec86ab; --malachit: #5cc7a4; --bernstein: #e2a557;
+  --richtig: #6fd197; --richtig-hell: #1b3326; --falsch: #f08b8b; --falsch-hell: #3a1f20;
+  color-scheme: dark;
+}
+
+.reihe-1 { --farbe: var(--methylenblau); }
+.reihe-2 { --farbe: var(--eosin); }
+.reihe-3 { --farbe: var(--malachit); }
+.reihe-4 { --farbe: var(--bernstein); }
+.reihe-1, .reihe-2, .reihe-3, .reihe-4 { --farbe-hell: color-mix(in srgb, var(--farbe) 10%, var(--flaeche)); }
+
+/* ---------- Grundlagen ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--tinte);
+  font-family: var(--schrift-text);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+img, svg { max-width: 100%; height: auto; }
+a { color: var(--farbe); text-underline-offset: 0.18em; text-decoration-thickness: 1.5px; }
+a:hover { text-decoration-thickness: 3px; }
+:focus-visible { outline: 3px solid var(--farbe); outline-offset: 3px; border-radius: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--schrift-titel);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+}
+h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); font-weight: 800; letter-spacing: -0.025em; }
+h2 { font-size: clamp(1.45rem, 3.4vw, 1.9rem); font-weight: 700; margin-top: 2.2em; }
+h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.8em; }
+p, ul, ol { margin: 0 0 1em; }
+li + li { margin-top: 0.3em; }
+
+.huelle { width: min(100% - 32px, 70rem); margin-inline: auto; }
+.spalte { width: min(100% - 32px, 44rem); margin-inline: auto; }
+
+/* ---------- Kopfzeile ---------- */
+.kopf {
+  border-bottom: 1px solid var(--linie);
+  background: var(--flaeche);
+}
+.kopf .huelle {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.75rem;
+  padding-block: 0.7rem; font-size: 0.95rem;
+}
+.kopf .marke {
+  font-family: var(--schrift-titel); font-weight: 800; color: var(--tinte);
+  text-decoration: none; margin-right: auto;
+}
+.pfad { display: flex; flex-wrap: wrap; gap: 0.2rem 0.5rem; list-style: none; margin: 0; padding: 0; color: var(--tinte-weich); }
+.pfad li + li { margin-top: 0; }
+.pfad li + li::before { content: "/"; margin-right: 0.5rem; color: var(--linie); }
+.pfad a { color: var(--tinte-weich); }
+
+/* ---------- Startseite ---------- */
+.buehne {
+  background-color: var(--flaeche);
+  background-image:
+    linear-gradient(var(--raster) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster) 1px, transparent 1px);
+  background-size: 22px 22px;
+  border-bottom: 1px solid var(--linie);
+  padding-block: clamp(2.5rem, 8vw, 5rem) clamp(2rem, 6vw, 3.5rem);
+}
+.buehne p.einleitung { max-width: 38rem; font-size: 1.2rem; color: var(--tinte-weich); }
+
+.reihen { list-style: none; padding: 0; margin: 2.5rem 0 4rem; display: grid; gap: 1rem; }
+@media (min-width: 46rem) { .reihen { grid-template-columns: repeat(2, 1fr); } }
+.reihen li + li { margin-top: 0; }
+.reihe-karte {
+  display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start;
+  padding: 1.25rem 1.25rem 1.35rem;
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  color: var(--tinte); text-decoration: none;
+  height: 100%;
+}
+a.reihe-karte:hover { border-color: var(--farbe); }
+a.reihe-karte:hover h2 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.15em; }
+.reihe-karte h2 { margin: 0.1em 0 0.3em; font-size: 1.35rem; }
+.reihe-karte p { margin: 0; color: var(--tinte-weich); font-size: 1rem; }
+.reihe-karte .stand { display: inline-block; margin-top: 0.7rem; font-size: 0.9rem; font-weight: 700; color: var(--farbe); }
+.reihe-karte.in-arbeit { background: transparent; border-style: dashed; }
+.reihe-karte.in-arbeit .stand { color: var(--tinte-weich); }
+
+/* Färbetropfen: Nummer der Reihe in der Farbe der Reihe */
+.tropfen {
+  width: 3rem; height: 3rem; flex: none;
+  display: grid; place-items: center;
+  background: var(--farbe); color: var(--flaeche);
+  font-family: var(--schrift-titel); font-weight: 800; font-size: 1.35rem;
+  border-radius: 50% 50% 50% 12%;
+}
+.in-arbeit .tropfen { background: transparent; color: var(--farbe); border: 2px solid var(--farbe); }
+
+/* ---------- Reihen-Übersicht ---------- */
+.reihe-kopf {
+  background: var(--farbe-hell);
+  border-bottom: 1px solid var(--linie);
+  padding-block: clamp(2rem, 6vw, 3.5rem) 2rem;
+}
+.reihe-kopf .tropfen { margin-bottom: 1rem; }
+.reihe-kopf p { max-width: 40rem; color: var(--tinte-weich); font-size: 1.15rem; }
+
+.bereich { margin-block: 2.5rem; }
+.bereich > h2 { margin-top: 0; display: flex; align-items: baseline; gap: 0.6rem; }
+.bereich > p.hinweis { color: var(--tinte-weich); margin-top: -0.3rem; }
+
+.liste { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--linie); }
+.liste li { margin: 0; border-bottom: 1px solid var(--linie); }
+.liste a {
+  display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.25rem 0.75rem;
+  padding: 0.95rem 0.25rem; text-decoration: none; color: var(--tinte);
+}
+.liste a:hover .titel { text-decoration: underline; text-decoration-thickness: 2px; }
+.liste .nr { font-family: var(--schrift-titel); font-weight: 800; color: var(--farbe); font-size: 1.15rem; }
+.liste .titel { font-weight: 700; }
+.liste .info { grid-column: 2; color: var(--tinte-weich); font-size: 0.98rem; }
+.liste .symbol { color: var(--farbe); font-size: 1.2rem; line-height: 1.4; }
+
+/* ---------- Lerntext ---------- */
+.lerntext { padding-block: 2.5rem 4rem; }
+.lerntext .lead { font-size: 1.25rem; color: var(--tinte-weich); }
+.lerntext h1 { font-size: clamp(2rem, 5.5vw, 2.8rem); }
+.fachwort { font-weight: 700; color: var(--farbe); }
+
+.merke {
+  margin: 1.8rem 0; padding: 1rem 1.2rem 0.3rem;
+  border-left: 5px solid var(--farbe);
+  background: var(--farbe-hell);
+  border-radius: 0 var(--radius-klein) var(--radius-klein) 0;
+}
+.merke > strong:first-child { display: block; font-family: var(--schrift-titel); font-size: 1.05rem; margin-bottom: 0.35rem; }
+.wusstest {
+  margin: 1.8rem 0; padding: 1rem 1.2rem 0.3rem;
+  border: 1px dashed var(--linie); border-radius: var(--radius-klein);
+  background: var(--flaeche);
+}
+.wusstest > strong:first-child { display: block; margin-bottom: 0.35rem; }
+
+figure { margin: 2rem 0; }
+figure .bild {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 1rem; color: var(--tinte);
+}
+figcaption { font-size: 0.95rem; color: var(--tinte-weich); margin-top: 0.5rem; }
+
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 1rem; background: var(--flaeche); }
+th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.7rem; border: 1px solid var(--linie); }
+th { background: var(--farbe-hell); font-weight: 700; }
+.tabelle-scroll { overflow-x: auto; }
+
+.weiter {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+  margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--linie);
+}
+
+/* ---------- Aufgaben ---------- */
+.aufgaben { counter-reset: aufgabe; list-style: none; padding: 0; }
+.aufgaben > li {
+  counter-increment: aufgabe; position: relative;
+  margin: 0 0 1.4rem; padding: 1rem 1.1rem 0.4rem 3.4rem;
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+}
+.aufgaben > li::before {
+  content: counter(aufgabe); position: absolute; left: 1rem; top: 0.95rem;
+  font-family: var(--schrift-titel); font-weight: 800; font-size: 1.3rem; color: var(--farbe);
+}
+.afb {
+  display: inline-block; margin-left: 0.4rem; padding: 0 0.45rem;
+  font-size: 0.8rem; font-weight: 700; border-radius: 4px; vertical-align: 0.12em;
+  border: 1px solid var(--farbe); color: var(--farbe);
+}
+.schreibzeilen {
+  height: calc(var(--zeilen, 4) * 2rem); margin: 0.6rem 0 0.8rem;
+  background-image: linear-gradient(var(--linie) 1px, transparent 1px);
+  background-size: 100% 2rem; background-position: 0 1.95rem;
+  display: none;
+}
+.nur-druck { display: none; }
+.legende { font-size: 0.95rem; color: var(--tinte-weich); }
+
+/* ---------- Knöpfe ---------- */
+.knopf {
+  font: inherit; font-weight: 700; font-size: 1rem;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.6rem 1.1rem; min-height: 2.75rem;
+  border-radius: 999px; cursor: pointer;
+  border: 2px solid var(--farbe); background: var(--farbe); color: var(--flaeche);
+  text-decoration: none;
+}
+.knopf:hover { filter: brightness(1.08); }
+.knopf.leise { background: transparent; color: var(--farbe); }
+.knopf:disabled { opacity: 0.45; cursor: not-allowed; }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.2rem 0; }
+
+/* ---------- Übungen ---------- */
+.uebung { margin: 2rem 0; }
+.frage {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 1.1rem 1.2rem; margin-bottom: 1rem;
+}
+.frage h3 { margin: 0 0 0.8rem; font-family: var(--schrift-text); font-size: 1.1rem; }
+.frage .nummer { color: var(--farbe); font-family: var(--schrift-titel); margin-right: 0.4rem; }
+.optionen { display: grid; gap: 0.5rem; }
+.option {
+  font: inherit; font-size: 1.02rem; text-align: left; cursor: pointer;
+  padding: 0.65rem 0.9rem; border-radius: var(--radius-klein);
+  border: 1.5px solid var(--linie); background: var(--papier); color: var(--tinte);
+}
+.option:hover:not(:disabled) { border-color: var(--farbe); }
+.option:disabled { cursor: default; }
+.option.ist-richtig { border-color: var(--richtig); background: var(--richtig-hell); }
+.option.ist-falsch { border-color: var(--falsch); background: var(--falsch-hell); }
+.rueckmeldung { margin: 0.8rem 0 0; font-size: 1rem; }
+.rueckmeldung strong.gut { color: var(--richtig); }
+.rueckmeldung strong.schlecht { color: var(--falsch); }
+
+.punktestand {
+  position: sticky; bottom: 0.75rem; z-index: 5;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem;
+  margin-top: 1.5rem; padding: 0.7rem 1rem;
+  background: var(--tinte); color: var(--papier); border-radius: var(--radius);
+  font-weight: 700;
+}
+.punktestand .knopf { border-color: var(--papier); background: transparent; color: var(--papier); min-height: 2.3rem; padding: 0.35rem 0.9rem; }
+
+/* Zuordnen */
+.paar {
+  display: grid; gap: 0.5rem; align-items: center;
+  padding: 0.8rem 0; border-bottom: 1px solid var(--linie);
+}
+@media (min-width: 40rem) { .paar { grid-template-columns: 14rem 1fr; } }
+.paar .begriff { font-weight: 700; }
+.paar select {
+  font: inherit; font-size: 1rem; width: 100%; padding: 0.55rem 0.6rem;
+  border: 1.5px solid var(--linie); border-radius: var(--radius-klein);
+  background: var(--flaeche); color: var(--tinte);
+}
+.paar.ist-richtig select { border-color: var(--richtig); background: var(--richtig-hell); }
+.paar.ist-falsch select { border-color: var(--falsch); background: var(--falsch-hell); }
+
+/* Sortieren */
+.sortier-eintrag {
+  display: grid; gap: 0.5rem; align-items: center;
+  padding: 0.75rem 0; border-bottom: 1px solid var(--linie);
+}
+@media (min-width: 46rem) { .sortier-eintrag { grid-template-columns: 1fr auto; } }
+.wahl { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.wahl button {
+  font: inherit; font-size: 0.95rem; cursor: pointer;
+  padding: 0.4rem 0.8rem; border-radius: 999px;
+  border: 1.5px solid var(--linie); background: var(--flaeche); color: var(--tinte);
+}
+.wahl button[aria-pressed="true"] { border-color: var(--farbe); background: var(--farbe); color: var(--flaeche); }
+.sortier-eintrag.ist-richtig .wahl button[aria-pressed="true"] { border-color: var(--richtig); background: var(--richtig); }
+.sortier-eintrag.ist-falsch .wahl button[aria-pressed="true"] { border-color: var(--falsch); background: var(--falsch); }
+.sortier-eintrag .loesung { grid-column: 1 / -1; font-size: 0.95rem; color: var(--tinte-weich); }
+
+/* Lückentext */
+.wortspeicher {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.2rem; padding: 0.8rem;
+  border: 1px dashed var(--linie); border-radius: var(--radius-klein); background: var(--flaeche);
+}
+.wortspeicher span { padding: 0.15rem 0.6rem; background: var(--farbe-hell); border-radius: 4px; font-size: 1rem; }
+.lueckentext { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius); padding: 1.1rem 1.2rem; line-height: 2.3; }
+.lueckentext input {
+  font: inherit; font-size: 1rem; width: 9.5em; padding: 0.1rem 0.4rem;
+  border: none; border-bottom: 2px solid var(--farbe); background: var(--papier); color: var(--tinte);
+  border-radius: 4px 4px 0 0;
+}
+.lueckentext input.ist-richtig { border-color: var(--richtig); background: var(--richtig-hell); }
+.lueckentext input.ist-falsch { border-color: var(--falsch); background: var(--falsch-hell); }
+
+/* ---------- Modelle ---------- */
+.modell { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius); padding: 1rem; margin: 1.5rem 0; }
+.modell > svg { display: block; width: 100%; height: auto; }
+.legende svg { display: inline-block; vertical-align: -1px; }
+.knopf svg { flex: none; }
+.modell-steuerung { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+.schritt-text { min-height: 6.5rem; margin-top: 1rem; }
+.schritt-text h3 { margin: 0 0 0.3rem; }
+.fortschritt { display: flex; gap: 0.3rem; margin-top: 0.5rem; }
+.fortschritt span { flex: 1; height: 5px; border-radius: 3px; background: var(--linie); }
+.fortschritt span.an { background: var(--farbe); }
+
+/* ---------- Fußzeile ---------- */
+.fuss { border-top: 1px solid var(--linie); padding-block: 1.5rem 2.5rem; color: var(--tinte-weich); font-size: 0.9rem; }
+.fuss p { margin: 0 0 0.4rem; }
+
+/* ---------- Druck ---------- */
+@media print {
+  :root { --papier: #fff; --flaeche: #fff; --farbe-hell: #f1f1f1; }
+  body { font-size: 11.5pt; }
+  .kopf, .fuss, .knopfreihe, .weiter, .nicht-drucken { display: none !important; }
+  .aufgaben > li { break-inside: avoid; border-color: #999; }
+  .schreibzeilen { display: block; }
+  .nur-druck { display: block !important; margin: 0 0 1rem; }
+  a { color: inherit; text-decoration: none; }
+  .buehne, .reihe-kopf { background: none; padding-block: 0 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+.nur-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modell: Wie Resistenzen entstehen – Biologie Klasse 8</title>
+  <meta name="description" content="Simulation einer Bakterienpopulation unter Antibiotika">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="reihe-1">
+  <header class="kopf">
+    <div class="huelle">
+      <a class="marke" href="../../index.html">Biologie Klasse 8</a>
+      <nav aria-label="Brotkrümel"><ol class="pfad"><li><a href="../index.html">Abwehr von Krankheiten</a></li><li aria-current="page">Modell</li></ol></nav>
+    </div>
+  </header>
+  <main id="inhalt">
+
+<article class="spalte lerntext">
+  <h1>Modell: Wie Resistenzen entstehen</h1>
+  
+<p class="lead">In einer Bakterienpopulation gibt es fast immer ein paar wenige Bakterien, denen ein bestimmtes Antibiotikum zufällig nichts anhaben kann. Was passiert mit ihnen, wenn das Antibiotikum eingesetzt wird?</p>
+
+<div class="modell" id="rs">
+  <svg viewBox="0 0 600 300" role="img" aria-labelledby="rs-t" id="rs-feld">
+    <title id="rs-t">Bakterienpopulation: empfindliche und resistente Bakterien als Punkte</title>
+  </svg>
+  <p class="legende">
+    <svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="var(--methylenblau)"/></svg> empfindlich: <strong id="rs-e">0</strong>
+    &nbsp;&nbsp;
+    <svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="var(--eosin)"/></svg> resistent: <strong id="rs-r">0</strong>
+    &nbsp;&nbsp; Tag <strong id="rs-tag">0</strong>
+  </p>
+  <div class="modell-steuerung">
+    <button class="knopf leise" type="button" id="rs-ohne">Ein Tag ohne Antibiotikum</button>
+    <button class="knopf" type="button" id="rs-mit">Ein Tag mit Antibiotikum</button>
+    <button class="knopf leise" type="button" id="rs-reset">Zurücksetzen</button>
+  </div>
+  <p class="rueckmeldung" id="rs-meldung" aria-live="polite"></p>
+  <h3>Verlauf</h3>
+  <svg viewBox="0 0 600 180" role="img" aria-labelledby="rs-vt" id="rs-verlauf">
+    <title id="rs-vt">Diagramm: Anzahl empfindlicher und resistenter Bakterien über die Tage</title>
+  </svg>
+</div>
+
+<h2>Arbeitsauftrag</h2>
+<ol>
+  <li>Lass die Bakterien zunächst drei Tage ohne Antibiotikum wachsen. Beschreibe, was du beobachtest.</li>
+  <li>Gib nun mehrere Tage hintereinander das Antibiotikum. Beschreibe, wie sich der Anteil der resistenten Bakterien verändert.</li>
+  <li>Setze das Antibiotikum danach ab und lass die Bakterien wieder wachsen. Erkläre, warum dasselbe Antibiotikum jetzt kaum noch helfen würde.</li>
+  <li>Erkläre mit dem Begriff <span class="fachwort">Selektion</span>, warum das Antibiotikum die Bakterien nicht resistent <em>macht</em>, aber trotzdem dafür sorgt, dass Resistenzen zunehmen.</li>
+</ol>
+<h3>Grenzen des Modells</h3>
+<p>Das Modell ist stark vereinfacht: Das Immunsystem des Menschen ist nicht dargestellt, obwohl es in Wirklichkeit viele Bakterien selbst bekämpft. Die Zahlen sind ausgedacht und sollen nur das Prinzip zeigen. Außerdem können Bakterien Resistenzen in Wirklichkeit auch über Plasmide aneinander weitergeben.</p>
+
+<script>
+(function () {
+  var ns = "http://www.w3.org/2000/svg";
+  var MAX = 480, START_E = 40, START_R = 1;
+  var feld = document.getElementById("rs-feld");
+  var verlauf = document.getElementById("rs-verlauf");
+  var meldung = document.getElementById("rs-meldung");
+  var e, r, tag, daten, plaetze;
+
+  function neu(tag, attrs) { var x = document.createElementNS(ns, tag); for (var k in attrs) x.setAttribute(k, attrs[k]); return x; }
+
+  // feste, gemischte Plätze im Feld
+  plaetze = [];
+  for (var y = 0; y < 16; y++) for (var x = 0; x < 30; x++) plaetze.push([12 + x * 19.5 + (y % 2) * 6, 12 + y * 18.3]);
+  var saat = 20261029; function zufall() { saat = (saat + 0x6D2B79F5) | 0; var q = Math.imul(saat ^ (saat >>> 15), 1 | saat); q = (q + Math.imul(q ^ (q >>> 7), 61 | q)) ^ q; return ((q ^ (q >>> 14)) >>> 0) / 4294967296; }
+  for (var i = plaetze.length - 1; i > 0; i--) { var j = Math.floor(zufall() * (i + 1)); var t = plaetze[i]; plaetze[i] = plaetze[j]; plaetze[j] = t; }
+
+  function zufallRunden(x) { var g = Math.floor(x); return g + (Math.random() < x - g ? 1 : 0); }
+
+  function wachsen() {
+    // Wachstum mit Platzgrenze (Nährstoffe begrenzt)
+    var gesamt = e + r;
+    var frei = Math.max(0, MAX - gesamt);
+    var zuwachsE = Math.min(e, zufallRunden(e * frei / MAX));
+    var zuwachsR = Math.min(r, zufallRunden(r * frei / MAX));
+    e += zuwachsE; r += zuwachsR;
+  }
+
+  function antibiotikum() {
+    // tötet etwa 80 % der empfindlichen Bakterien, resistente überleben
+    var tot = 0;
+    for (var k = 0; k < e; k++) if (Math.random() < 0.8) tot++;
+    e -= tot;
+  }
+
+  function zeichneFeld() {
+    while (feld.firstChild) feld.removeChild(feld.firstChild);
+    feld.appendChild(neu("rect", { x: 0, y: 0, width: 600, height: 300, rx: 10, fill: "var(--papier)" }));
+    var n = 0;
+    for (var a = 0; a < r && n < MAX; a++, n++) feld.appendChild(neu("circle", { cx: plaetze[n][0], cy: plaetze[n][1], r: 6.5, fill: "var(--eosin)" }));
+    for (var b = 0; b < e && n < MAX; b++, n++) feld.appendChild(neu("circle", { cx: plaetze[n][0], cy: plaetze[n][1], r: 6.5, fill: "var(--methylenblau)" }));
+    document.getElementById("rs-e").textContent = e;
+    document.getElementById("rs-r").textContent = r;
+    document.getElementById("rs-tag").textContent = tag;
+  }
+
+  function zeichneVerlauf() {
+    while (verlauf.firstChild) verlauf.removeChild(verlauf.firstChild);
+    var L = 46, R = 590, O = 12, U = 150;
+    var g = neu("g", { "font-family": "Atkinson Hyperlegible, sans-serif", "font-size": 12, fill: "currentColor" });
+    verlauf.appendChild(g);
+    g.appendChild(neu("line", { x1: L, y1: U, x2: R, y2: U, stroke: "currentColor" }));
+    g.appendChild(neu("line", { x1: L, y1: O, x2: L, y2: U, stroke: "currentColor" }));
+    [0, 240, 480].forEach(function (v) {
+      var yy = U - v / MAX * (U - O);
+      var t = neu("text", { x: L - 6, y: yy + 4, "text-anchor": "end" }); t.textContent = v; g.appendChild(t);
+    });
+    var tx = neu("text", { x: (L + R) / 2, y: 174, "text-anchor": "middle" }); tx.textContent = "Tage"; g.appendChild(tx);
+    var tage = Math.max(10, daten.length - 1);
+    function px(i) { return L + i / tage * (R - L); }
+    function py(v) { return U - v / MAX * (U - O); }
+    // Antibiotika-Tage hinterlegen
+    daten.forEach(function (d, i) {
+      if (i > 0 && d.ab) g.appendChild(neu("rect", { x: px(i - 1), y: O, width: px(i) - px(i - 1), height: U - O, fill: "color-mix(in srgb, var(--bernstein) 16%, transparent)" }));
+    });
+    ["e", "r"].forEach(function (k) {
+      var d = daten.map(function (p, i) { return (i ? "L" : "M") + px(i).toFixed(1) + " " + py(p[k]).toFixed(1); }).join(" ");
+      g.appendChild(neu("path", { d: d, fill: "none", stroke: k === "e" ? "var(--methylenblau)" : "var(--eosin)", "stroke-width": 3, "stroke-linejoin": "round" }));
+    });
+    var hinweis = neu("text", { x: R, y: O + 4, "text-anchor": "end", fill: "var(--tinte-weich)" }); hinweis.textContent = "hinterlegt = Tage mit Antibiotikum"; g.appendChild(hinweis);
+  }
+
+  function bewerte(mitAB) {
+    var anteil = (e + r) ? r / (e + r) : 0;
+    if (e + r === 0) meldung.textContent = "Alle Bakterien sind abgestorben.";
+    else if (mitAB && anteil > 0.5) meldung.textContent = "Die meisten übrig gebliebenen Bakterien sind resistent. Das Antibiotikum wirkt kaum noch.";
+    else if (mitAB) meldung.textContent = "Das Antibiotikum tötet viele empfindliche Bakterien. Die resistenten überleben alle.";
+    else if (anteil > 0.5) meldung.textContent = "Die resistenten Bakterien haben jetzt viel Platz und vermehren sich ungestört.";
+    else meldung.textContent = "Die Bakterien vermehren sich, bis Platz und Nährstoffe knapp werden.";
+  }
+
+  function tagVorbei(mitAB) {
+    tag++;
+    if (mitAB) antibiotikum();
+    wachsen();
+    daten.push({ e: e, r: r, ab: mitAB });
+    zeichneFeld(); zeichneVerlauf(); bewerte(mitAB);
+  }
+
+  function reset() {
+    e = START_E; r = START_R; tag = 0; daten = [{ e: e, r: r, ab: false }];
+    meldung.textContent = "Am Anfang ist nur ein einziges Bakterium resistent.";
+    zeichneFeld(); zeichneVerlauf();
+  }
+
+  document.getElementById("rs-ohne").addEventListener("click", function () { tagVorbei(false); });
+  document.getElementById("rs-mit").addEventListener("click", function () { tagVorbei(true); });
+  document.getElementById("rs-reset").addEventListener("click", reset);
+  reset();
+})();
+</script>
+
+  <nav class="weiter" aria-label="Navigation"><a href="../index.html">Zur Übersicht der Reihe</a></nav>
+</article>
+  </main>
+  <footer class="fuss">
+    <div class="huelle">
+      <p>Wahlpflichtkurs Biologie, Klasse 8. Die Übungen speichern keine Daten und funktionieren ohne Anmeldung.</p>
+    </div>
+  </footer>
+</body>
+</html>

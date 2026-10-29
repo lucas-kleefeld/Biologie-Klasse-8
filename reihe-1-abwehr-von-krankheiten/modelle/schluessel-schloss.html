@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modell: Das Schlüssel-Schloss-Prinzip – Biologie Klasse 8</title>
+  <meta name="description" content="Finde den Antikörper, der zum Erreger passt">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="reihe-1">
+  <header class="kopf">
+    <div class="huelle">
+      <a class="marke" href="../../index.html">Biologie Klasse 8</a>
+      <nav aria-label="Brotkrümel"><ol class="pfad"><li><a href="../index.html">Abwehr von Krankheiten</a></li><li aria-current="page">Modell</li></ol></nav>
+    </div>
+  </header>
+  <main id="inhalt">
+
+<article class="spalte lerntext">
+  <h1>Modell: Das Schlüssel-Schloss-Prinzip</h1>
+  
+<p class="lead">Jeder Erreger trägt an seiner Oberfläche ganz bestimmte Merkmale, die <span class="fachwort">Antigene</span>. Nur ein Antikörper mit der passenden Form kann daran binden. Probiere es aus.</p>
+
+<div class="modell" id="ss">
+  <svg viewBox="0 0 640 380" role="img" aria-labelledby="ss-t" id="ss-bild">
+    <title id="ss-t">Ein Erreger mit Antigenen in der Mitte und die Antikörper, die du ausgewählt hast</title>
+    <g id="ss-szene"></g>
+  </svg>
+  <p class="rueckmeldung" id="ss-meldung" aria-live="polite">Wähle unten einen Antikörper aus.</p>
+  <div class="modell-steuerung" role="group" aria-label="Antikörper auswählen">
+    <button class="knopf leise" type="button" data-form="dreieck">Antikörper A</button>
+    <button class="knopf leise" type="button" data-form="kreis">Antikörper B</button>
+    <button class="knopf leise" type="button" data-form="quadrat">Antikörper C</button>
+  </div>
+  <div class="modell-steuerung">
+    <button class="knopf" type="button" id="ss-neu">Neuer Erreger</button>
+  </div>
+  <p id="ss-gedaechtnis" class="legende" aria-live="polite">Gedächtniszellen: noch keine</p>
+</div>
+
+<h2>Was das Modell zeigt</h2>
+<ul>
+  <li>Die Antigene des Erregers und die Bindungsstelle des Antikörpers passen zueinander wie Schloss und Schlüssel.</li>
+  <li>Passt ein Antikörper, heften sich viele davon an den Erreger. So werden Erreger verklumpt und können von Fresszellen beseitigt werden.</li>
+  <li>Hat der Körper einen Erreger schon einmal bekämpft, „kennen“ ihn die Gedächtniszellen. Kommt er wieder, werden sofort die passenden Antikörper gebildet.</li>
+</ul>
+<h3>Grenzen des Modells</h3>
+<p>Echte Antigene und Antikörper sind Eiweißmoleküle mit komplizierter räumlicher Form, keine Dreiecke oder Kreise. Außerdem probiert der Körper nicht nacheinander verschiedene Antikörper aus: Unter Millionen verschiedener B-Zellen werden genau die aktiviert, deren Antikörper zufällig passen.</p>
+
+<script>
+(function () {
+  var ns = "http://www.w3.org/2000/svg";
+  var szene = document.getElementById("ss-szene");
+  var meldung = document.getElementById("ss-meldung");
+  var gedText = document.getElementById("ss-gedaechtnis");
+  var knoepfe = document.querySelectorAll("#ss [data-form]");
+  var formen = ["dreieck", "kreis", "quadrat"];
+  var namen = { dreieck: "Erreger 1", kreis: "Erreger 2", quadrat: "Erreger 3" };
+  var gedaechtnis = {};
+  var erreger, gebunden;
+  var cx = 320, cy = 190, r = 55;
+
+  function neu(tag, attrs) { var e = document.createElementNS(ns, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  // Form einer Bindungsstelle (Antigen = Vorsprung) an Position (x,y), gedreht um winkel
+  function antigen(form, x, y, winkel, farbe) {
+    var g = neu("g", { transform: "translate(" + x + " " + y + ") rotate(" + winkel + ")" });
+    g.appendChild(neu("line", { x1: 0, y1: 0, x2: 0, y2: -14, stroke: "currentColor", "stroke-width": 3 }));
+    var s;
+    if (form === "dreieck") s = neu("polygon", { points: "-9,-14 9,-14 0,-28" });
+    else if (form === "kreis") s = neu("circle", { cx: 0, cy: -22, r: 9 });
+    else s = neu("rect", { x: -8, y: -30, width: 16, height: 16 });
+    s.setAttribute("fill", farbe); s.setAttribute("stroke", "currentColor"); s.setAttribute("stroke-width", 1.5);
+    g.appendChild(s); return g;
+  }
+
+  // Y-förmiger Antikörper im Koordinatensystem eines Antigens (außen = negative y-Richtung).
+  // Die linke Bindungsstelle sitzt genau über dem Antigen.
+  function antikoerper(form, farbe) {
+    var g = neu("g", { class: "ak" });
+    var linie = { fill: "none", stroke: farbe, "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" };
+    function stelle(x) {
+      var e;
+      if (form === "dreieck") e = neu("polyline", { points: (x - 12) + ",-12 " + x + ",-33 " + (x + 12) + ",-12" });
+      else if (form === "kreis") e = neu("path", { d: "M" + (x - 13) + " -20 A 13 13 0 0 1 " + (x + 13) + " -20" });
+      else e = neu("polyline", { points: (x - 11) + ",-12 " + (x - 11) + ",-33 " + (x + 11) + ",-33 " + (x + 11) + ",-12" });
+      for (var k in linie) e.setAttribute(k, linie[k]);
+      return e;
+    }
+    g.appendChild(neu("path", Object.assign({ d: "M0 -33 L20 -58 L40 -33 M20 -58 L20 -88" }, linie)));
+    g.appendChild(stelle(0)); g.appendChild(stelle(40));
+    return g;
+  }
+
+  function zeichne(gewaehlt) {
+    while (szene.firstChild) szene.removeChild(szene.firstChild);
+    var farbeE = "var(--eosin)", farbeA = "var(--methylenblau)";
+    szene.appendChild(neu("circle", { cx: cx, cy: cy, r: r, fill: "color-mix(in srgb, var(--eosin) 14%, transparent)", stroke: farbeE, "stroke-width": 3 }));
+    var t = neu("text", { x: cx, y: cy + 5, "text-anchor": "middle", "font-family": "Atkinson Hyperlegible, sans-serif", "font-size": 15, fill: "currentColor" });
+    t.textContent = namen[erreger]; szene.appendChild(t);
+    var passt = gewaehlt === erreger;
+    for (var i = 0; i < 6; i++) {
+      var w = i * 60;
+      var rad = (w - 90) * Math.PI / 180;
+      var x = cx + Math.cos(rad) * r, y = cy + Math.sin(rad) * r;
+      szene.appendChild(antigen(erreger, x, y, w, farbeE));
+      if (gewaehlt && (passt || i === 0 || i === 3)) {
+        var ak = antikoerper(gewaehlt, farbeA);
+        ak.setAttribute("transform", "translate(" + x + " " + y + ") rotate(" + w + ")" + (passt ? "" : " translate(0 -26)"));
+        szene.appendChild(ak);
+      }
+    }
+  }
+
+  // kleine Abbildung der Antikörper in den Auswahlknöpfen
+  knoepfe.forEach(function (b) {
+    var s = neu("svg", { viewBox: "-18 -94 76 86", width: 30, height: 34, "aria-hidden": "true" });
+    s.appendChild(antikoerper(b.getAttribute("data-form"), "currentColor"));
+    b.insertBefore(s, b.firstChild);
+  });
+
+  function neuerErreger() {
+    erreger = formen[Math.floor(Math.random() * formen.length)];
+    gebunden = false;
+    zeichne(null);
+    if (gedaechtnis[erreger]) {
+      meldung.innerHTML = "<strong class='gut'>Dieser Erreger ist bekannt!</strong> Gedächtniszellen erkennen " + namen[erreger] + " sofort. Wähle den passenden Antikörper.";
+    } else {
+      meldung.textContent = namen[erreger] + " ist in den Körper eingedrungen. Welcher Antikörper passt zu seinen Antigenen?";
+    }
+  }
+
+  knoepfe.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var form = b.getAttribute("data-form");
+      zeichne(form);
+      if (form === erreger) {
+        meldung.innerHTML = "<strong class='gut'>Passt!</strong> Die Antikörper binden an die Antigene und verklumpen den Erreger. Fresszellen können ihn jetzt beseitigen.";
+        if (!gedaechtnis[erreger]) {
+          gedaechtnis[erreger] = true;
+          gedText.textContent = "Gedächtniszellen gespeichert für: " + Object.keys(gedaechtnis).map(function (k) { return namen[k]; }).join(", ");
+        }
+      } else {
+        meldung.innerHTML = "<strong class='schlecht'>Passt nicht.</strong> Die Form der Bindungsstelle passt nicht zu den Antigenen. Der Antikörper kann nicht binden.";
+      }
+    });
+  });
+  document.getElementById("ss-neu").addEventListener("click", neuerErreger);
+  neuerErreger();
+})();
+</script>
+
+  <nav class="weiter" aria-label="Navigation"><a href="../index.html">Zur Übersicht der Reihe</a></nav>
+</article>
+  </main>
+  <footer class="fuss">
+    <div class="huelle">
+      <p>Wahlpflichtkurs Biologie, Klasse 8. Die Übungen speichern keine Daten und funktionieren ohne Anmeldung.</p>
+    </div>
+  </footer>
+</body>
+</html>
