@@ -112,12 +112,17 @@
       container.appendChild(zeile);
     });
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
+    var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung });
+    var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
     var knoepfe = el("div", { class: "knopfreihe" }, [
       el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
-      el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung }),
+      loesungKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "zuordnen", daten); } })
     ]);
-    container.appendChild(knoepfe); container.appendChild(rueck);
+    container.appendChild(knoepfe); container.appendChild(sperre); container.appendChild(rueck);
+    function offen() { return zeilen.filter(function (z) { return !z.sel.value; }).length; }
+    sperreAktualisieren(loesungKnopf, sperre, offen, "Zuordnung");
+    zeilen.forEach(function (z) { z.sel.addEventListener("change", function () { sperreAktualisieren(loesungKnopf, sperre, offen, "Zuordnung"); }); });
 
     function pruefen() {
       var n = 0;
@@ -131,7 +136,17 @@
       rueck.appendChild(el("strong", { class: n === zeilen.length ? "gut" : "schlecht", text: n + " von " + zeilen.length + " richtig. " }));
       rueck.appendChild(document.createTextNode(lob(n / zeilen.length)));
     }
-    function loesung() { zeilen.forEach(function (z) { z.sel.value = z.loesung; }); pruefen(); }
+    // Eigene Antworten bleiben stehen; unter falschen erscheint die richtige Lösung.
+    function loesung() {
+      if (offen()) return;
+      pruefen();
+      zeilen.forEach(function (z) {
+        var alt = z.zeile.querySelector(".loesung-zeile");
+        if (alt) alt.remove();
+        if (z.zeile.classList.contains("ist-falsch")) z.zeile.appendChild(el("span", { class: "loesung-zeile", text: "Richtig wäre: " + z.loesung }));
+      });
+      rueck.appendChild(document.createTextNode(" Unter deinen falschen Antworten steht jetzt die richtige Lösung."));
+    }
   }
 
   /* ---------- Sortieren in Kategorien ---------- */
@@ -199,12 +214,17 @@
     var text = el("div", { class: "lueckentext", html: html });
     container.appendChild(text);
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
+    var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung });
+    var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
     container.appendChild(el("div", { class: "knopfreihe" }, [
       el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
-      el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung }),
+      loesungKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "lueckentext", daten); } })
     ]));
-    container.appendChild(rueck);
+    container.appendChild(sperre); container.appendChild(rueck);
+    function offen() { return Array.prototype.filter.call(text.querySelectorAll("input"), function (f) { return !f.value.trim(); }).length; }
+    sperreAktualisieren(loesungKnopf, sperre, offen, "Lücke");
+    text.addEventListener("input", function () { sperreAktualisieren(loesungKnopf, sperre, offen, "Lücke"); });
 
     function norm(s) { return s.toLowerCase().replace(/\s+/g, " ").trim(); }
     function pruefen() {
@@ -218,10 +238,28 @@
       rueck.appendChild(el("strong", { class: n === felder.length ? "gut" : "schlecht", text: n + " von " + felder.length + " richtig. " }));
       rueck.appendChild(document.createTextNode(lob(n / felder.length)));
     }
+    // Eigene Antworten bleiben stehen; neben falschen erscheint die richtige Lösung.
     function loesung() {
-      Array.prototype.forEach.call(text.querySelectorAll("input"), function (f) { f.value = luecken[+f.dataset.nr][0]; });
+      if (offen()) return;
       pruefen();
+      Array.prototype.forEach.call(text.querySelectorAll("input"), function (f) {
+        var alt = f.nextElementSibling;
+        if (alt && alt.classList.contains("loesung-wort")) alt.remove();
+        if (f.classList.contains("ist-falsch")) f.insertAdjacentElement("afterend", el("span", { class: "loesung-wort", text: luecken[+f.dataset.nr][0] }));
+      });
+      rueck.appendChild(document.createTextNode(" Die richtigen Lösungen stehen jetzt grün neben deinen falschen Antworten."));
     }
+  }
+
+  /* Lösung erst freigeben, wenn alle Felder ausgefüllt sind */
+  function sperreAktualisieren(knopf, hinweis, offen, wort) {
+    var n = offen();
+    knopf.disabled = n > 0;
+    knopf.title = n > 0 ? "Fülle zuerst alle Felder aus." : "";
+    hinweis.textContent = n > 0
+      ? "Die Lösung kannst du ansehen, sobald alles ausgefüllt ist. Noch " + n + " " + (n === 1 ? wort : wort + (wort === "Lücke" ? "n" : "en")) + " offen."
+      : "";
+    hinweis.hidden = n === 0;
   }
 
   var typen = { quiz: quiz, zuordnen: zuordnen, sortieren: sortieren, lueckentext: lueckentext };

@@ -436,3 +436,7 @@ tbody th { background: color-mix(in srgb, var(--farbe-hell) 50%, var(--flaeche))
 .mk-strahlkegel { fill: color-mix(in srgb, var(--methylenblau) 22%, transparent); }
 h1, h2 { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
 .uebung-kopf h1 { min-width: 0; }
+
+.loesung-sperre { margin: -0.4rem 0 0.6rem; }
+.loesung-wort { display: inline-block; margin: 0 0.3rem 0 0.35rem; padding: 0 0.4rem; border-radius: 4px; background: var(--richtig-hell); color: var(--richtig); font-weight: 700; line-height: 1.6; }
+.loesung-zeile { grid-column: 1 / -1; font-size: 0.95rem; color: var(--richtig); font-weight: 700; }
