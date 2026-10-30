@@ -251,6 +251,110 @@
     }
   }
 
+  /* ---------- Reihenfolge ----------
+     daten.schritte: Texte in der richtigen Reihenfolge */
+  function reihenfolge(container, daten) {
+    var richtig = daten.schritte.slice(), liste;
+    do { liste = mischen(richtig); } while (liste.every(function (t, i) { return t === richtig[i]; }));
+    var geprueft = false;
+    var ol = el("ol", { class: "reihen-liste" });
+    var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
+    var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung, disabled: "" });
+    var sperre = el("p", { class: "legende loesung-sperre", text: "Die Lösung kannst du ansehen, nachdem du deine Reihenfolge geprüft hast." });
+    container.appendChild(ol);
+    container.appendChild(el("div", { class: "knopfreihe" }, [
+      el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
+      loesungKnopf,
+      el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "reihenfolge", daten); } })
+    ]));
+    container.appendChild(sperre); container.appendChild(rueck);
+
+    function zeichnen(fokusText, richtung) {
+      ol.innerHTML = "";
+      liste.forEach(function (t, i) {
+        var hoch = el("button", { class: "rf-pfeil", type: "button", "aria-label": "„" + t + "“ nach oben", text: "▲" });
+        var runter = el("button", { class: "rf-pfeil", type: "button", "aria-label": "„" + t + "“ nach unten", text: "▼" });
+        hoch.disabled = i === 0; runter.disabled = i === liste.length - 1;
+        hoch.addEventListener("click", function () { tausche(i, i - 1, t, "hoch"); });
+        runter.addEventListener("click", function () { tausche(i, i + 1, t, "runter"); });
+        var li = el("li", { class: "rf-eintrag" }, [el("span", { class: "rf-nr", text: (i + 1) + "." }), el("span", { class: "rf-text", text: t }), el("span", { class: "rf-knoepfe" }, [hoch, runter])]);
+        ol.appendChild(li);
+        if (t === fokusText) { var ziel = richtung === "hoch" ? (i === 0 ? runter : hoch) : (i === liste.length - 1 ? hoch : runter); setTimeout(function () { ziel.focus(); }, 0); }
+      });
+    }
+    function tausche(a, b, t, richtung) {
+      var x = liste[a]; liste[a] = liste[b]; liste[b] = x;
+      rueck.textContent = ""; zeichnen(t, richtung);
+    }
+    function pruefen() {
+      var n = 0;
+      Array.prototype.forEach.call(ol.children, function (li, i) {
+        var ok = liste[i] === richtig[i];
+        li.classList.toggle("ist-richtig", ok); li.classList.toggle("ist-falsch", !ok);
+        if (ok) n++;
+      });
+      geprueft = true; loesungKnopf.disabled = false; sperre.hidden = true;
+      rueck.innerHTML = "";
+      rueck.appendChild(el("strong", { class: n === liste.length ? "gut" : "schlecht", text: n + " von " + liste.length + " an der richtigen Stelle. " }));
+      rueck.appendChild(document.createTextNode(lob(n / liste.length)));
+    }
+    function loesung() {
+      if (!geprueft) return;
+      liste = richtig.slice(); zeichnen();
+      Array.prototype.forEach.call(ol.children, function (li) { li.classList.add("ist-richtig"); });
+      rueck.textContent = "So ist die richtige Reihenfolge. Vergleiche sie mit deinem Versuch.";
+    }
+    zeichnen();
+  }
+
+  /* ---------- Schreibtraining ----------
+     daten.aufgaben: [{ frage, checkliste: [...], muster, minWoerter }] */
+  function schreiben(container, daten) {
+    daten.aufgaben.forEach(function (a, nr) {
+      var box = el("div", { class: "frage schreib-aufgabe" });
+      var id = "s" + Math.random().toString(36).slice(2, 8);
+      box.appendChild(el("h3", {}, [el("span", { class: "nummer", text: (nr + 1) + "." }), document.createTextNode(a.frage)]));
+      if (a.hinweis) box.appendChild(el("p", { class: "legende", text: a.hinweis }));
+      var feld = el("textarea", { id: id, rows: "8", class: "schreibfeld", "aria-label": "Deine Antwort zu Aufgabe " + (nr + 1) });
+      var zaehler = el("p", { class: "legende", "aria-live": "polite" });
+      var knopf = el("button", { class: "knopf leise", type: "button", text: "Mit Musterlösung vergleichen", disabled: "" });
+      var ausgabe = el("div", { class: "schreib-vergleich", hidden: "" });
+      var min = a.minWoerter || 40;
+      function woerter() { var t = feld.value.trim(); return t ? t.split(/\s+/).length : 0; }
+      // verschiedene Wörter zählen, damit Wiederholungen nicht reichen
+      function verschiedene() { var m = {}; feld.value.toLowerCase().split(/[^a-zäöüß0-9-]+/).forEach(function (x) { if (x.length > 2) m[x] = 1; }); return Object.keys(m).length; }
+      function bereit() { return woerter() >= min && verschiedene() >= Math.round(min * 0.55); }
+      function aktualisieren() {
+        var w = woerter();
+        knopf.disabled = !bereit();
+        if (w < min) zaehler.textContent = w + " Wörter. Schreib mindestens " + min + " Wörter, dann kannst du mit der Musterlösung vergleichen.";
+        else if (!bereit()) zaehler.textContent = w + " Wörter, aber viele davon wiederholen sich. Beschreibe die Krankheit mit eigenen Sätzen.";
+        else zaehler.textContent = w + " Wörter.";
+      }
+      feld.addEventListener("input", aktualisieren);
+      knopf.addEventListener("click", function () {
+        if (!bereit()) return;
+        ausgabe.innerHTML = "";
+        ausgabe.appendChild(el("h4", { text: "Hast du an alles gedacht? Hake ab, was in deinem Text vorkommt." }));
+        var ul = el("ul", { class: "checkliste" });
+        a.checkliste.forEach(function (c, i) {
+          var cid = id + "c" + i;
+          ul.appendChild(el("li", {}, [el("input", { type: "checkbox", id: cid }), el("label", { for: cid, text: c })]));
+        });
+        ausgabe.appendChild(ul);
+        ausgabe.appendChild(el("h4", { text: "Musterlösung" }));
+        ausgabe.appendChild(el("p", { class: "muster", text: a.muster }));
+        ausgabe.hidden = false;
+        ul.querySelector("input").focus();
+      });
+      box.appendChild(feld); box.appendChild(zaehler);
+      box.appendChild(el("div", { class: "knopfreihe" }, [knopf])); box.appendChild(ausgabe);
+      container.appendChild(box);
+      aktualisieren();
+    });
+    container.appendChild(el("p", { class: "legende", text: "Dein Text wird nicht gespeichert. Wenn du die Seite neu lädst, ist er weg." }));
+  }
+
   /* Lösung erst freigeben, wenn alle Felder ausgefüllt sind */
   function sperreAktualisieren(knopf, hinweis, offen, wort) {
     var n = offen();
@@ -262,7 +366,7 @@
     hinweis.hidden = n === 0;
   }
 
-  var typen = { quiz: quiz, zuordnen: zuordnen, sortieren: sortieren, lueckentext: lueckentext };
+  var typen = { quiz: quiz, zuordnen: zuordnen, sortieren: sortieren, lueckentext: lueckentext, reihenfolge: reihenfolge, schreiben: schreiben };
 
   function neuAufbauen(container, typ, daten) {
     container.innerHTML = "";

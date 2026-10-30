@@ -18,12 +18,17 @@ Umfang laut schulinternem Lehrplan („Der Kampf gegen Krankheiten“): ca. 26 S
 |---|---|---|---|
 | 1 | Gesund oder krank? Infektion, Übertragungswege, Krankheitsverlauf, Hygiene | Lerntext 1, Aufgaben 1 | B3 (WHO-Gesundheitsbegriff), K5/K7 (Hygiene in Pflegeberufen) |
 | 2 | Bakterien und Viren: Bau und Vermehrung, Mikroskopie | Lerntext 2, Modell „Lichtmikroskop“, Aufgaben 2, Übung „Bakterien oder Viren?“ | UF2/UF4 (Vermehrung vergleichen), E2 (Bakterien vs. eukaryotische Zellen), K4 (Wachstumsdiagramm) |
+| 2b | Krankheiten durch Bakterien und Viren: Steckbriefe (Tetanus, Keuchhusten, Syphilis, Salmonellen, Tuberkulose, HIV/AIDS, Warzen, Lippenherpes, Windpocken, Hepatitis B, Masern, Mumps) | Lerntext „Krankheiten durch Bakterien und Viren“, Aufgaben (Steckbrief erstellen, Krankheitsdetektiv), Übungen „Krankheit durch Bakterien oder Viren?“ und „Welche Krankheit bin ich?“ | K5/K7 (Recherche, Steckbrief), UF3, B2 (Impfpflicht Masern) |
 | 3 | Unspezifische und spezifische Abwehr | Lerntext 3, Modell „Immunreaktion“, Übung „Wer macht was?“ | UF1 (Bestandteile des Immunsystems) |
 | 4 | Schlüssel-Schloss-Prinzip, Erst- und Zweitkontakt | Modell „Schlüssel-Schloss“, Aufgaben 3 | E1/E8 (Antigen-Antikörper-Modell, Stadien im Krankheitsverlauf) |
 | 5 | Impfen: Jenner, Pasteur, Behring; Schutz- und Heilimpfung; Impfausweis | Lerntext 4, Aufgaben 4, Lückentext „Impfen“ | E6/E9, E1 (historische Versuche), UF3 (Impfausweis), B2 (Standpunkt zum Impfen) |
 | 6 | Antibiotika und Resistenz | Lerntext 5, Modell „Resistenzen“, Aufgaben 5 | K7/UF2 (Resistenzentstehung), B1 (Fallbeispiel Medikamenteneinnahme) |
 | 7 | Allergien und Laktoseintoleranz, Lebensmittelkennzeichnung | Lerntext 6, Aufgaben 6, Übung „Milchallergie oder Laktoseintoleranz?“ | UF3, E3/E4 (Hypothesen, Experiment mit Laktase), B1 (Zutatenlisten) |
 | 8 | Wiederholung | Quiz „Grundwissen“ | |
+
+## Training für die Kursarbeit
+
+Unter „Übungen“ gibt es einen eigenen Bereich zur Vorbereitung auf die Kursarbeit „Immunsystem I“: Fachbegriffe zuordnen (14 Begriffe), Wissenscheck Bakterien und Viren, Lückentext, Virusvermehrung in sechs Schritten ordnen, Verlauf einer Infektionskrankheit ordnen und ein Schreibtraining „Krankheit beschreiben“ mit Checkliste und Musterlösung. Die Aufgaben sind inhaltlich an die Kursarbeit angelehnt, aber neu formuliert.
 
 ## Noch offen / Ideen für Ergänzungen
 

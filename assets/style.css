@@ -434,9 +434,50 @@ tbody th { background: color-mix(in srgb, var(--farbe-hell) 50%, var(--flaeche))
 .mk-geraetwahl button { font-weight: 700; }
 .mk-strahl { stroke: var(--methylenblau); stroke-width: 2; stroke-dasharray: 4 5; fill: none; }
 .mk-strahlkegel { fill: color-mix(in srgb, var(--methylenblau) 22%, transparent); }
-h1, h2 { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
+h1, h2 { overflow-wrap: break-word; }
+@media (max-width: 40rem) { h1, h2 { hyphens: auto; -webkit-hyphens: auto; } }
 .uebung-kopf h1 { min-width: 0; }
 
 .loesung-sperre { margin: -0.4rem 0 0.6rem; }
 .loesung-wort { display: inline-block; margin: 0 0.3rem 0 0.35rem; padding: 0 0.4rem; border-radius: 4px; background: var(--richtig-hell); color: var(--richtig); font-weight: 700; line-height: 1.6; }
 .loesung-zeile { grid-column: 1 / -1; font-size: 0.95rem; color: var(--richtig); font-weight: 700; }
+
+/* ---------- Reihenfolge und Schreibtraining ---------- */
+.reihen-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.reihen-liste li { margin: 0; }
+.rf-eintrag { display: grid; grid-template-columns: 2rem 1fr auto; gap: 0.5rem; align-items: center; padding: 0.55rem 0.6rem 0.55rem 0.9rem; background: var(--flaeche); border: 2px solid var(--linie); border-radius: var(--radius); }
+.rf-eintrag.ist-richtig { border-color: var(--richtig); background: var(--richtig-hell); }
+.rf-eintrag.ist-falsch { border-color: var(--falsch); background: var(--falsch-hell); }
+.rf-nr { font-family: var(--schrift-hand); font-weight: 700; font-size: 1.4rem; color: var(--farbe); }
+.rf-knoepfe { display: flex; gap: 0.3rem; }
+.rf-pfeil { font: inherit; width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 2px solid var(--tinte); background: var(--flaeche); color: var(--tinte); cursor: pointer; }
+.rf-pfeil:disabled { opacity: 0.25; cursor: default; }
+.schreibfeld { width: 100%; font: inherit; font-size: 1.05rem; line-height: 1.6; padding: 0.7rem 0.8rem; border: 2px solid var(--linie); border-radius: var(--radius-klein); background: var(--papier); color: var(--tinte); resize: vertical; }
+.schreibfeld:focus { border-color: var(--farbe); outline: none; }
+.schreib-vergleich { margin-top: 1rem; padding-top: 0.5rem; border-top: 2px dashed var(--linie); }
+.schreib-vergleich h4 { font-family: var(--schrift-titel); margin: 0.8rem 0 0.4rem; }
+.checkliste { list-style: none; padding: 0; margin: 0; }
+.checkliste li { display: flex; gap: 0.55rem; align-items: flex-start; margin: 0.35rem 0; }
+.checkliste input { width: 1.2rem; height: 1.2rem; margin-top: 0.25rem; accent-color: var(--richtig); flex: none; }
+.muster { background: var(--notiz); padding: 0.8rem 1rem; border-radius: var(--radius-klein); }
+
+/* ---------- Steckbriefe ---------- */
+.sb-uebersicht { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin: 1rem 0 1.5rem; }
+.sb-uebersicht > div { background: var(--flaeche); border: 2px solid var(--tinte); border-radius: var(--radius); padding: 0.8rem 1.1rem; }
+.sb-uebersicht h3 { margin: 0 0 0.3rem; }
+.sb-uebersicht ul { margin: 0; padding-left: 1.2rem; }
+.steckbriefe { display: grid; gap: 1.25rem; margin: 1rem 0 2rem; }
+.steckbrief { background: var(--flaeche); border: 2px solid var(--tinte); border-radius: var(--radius-gross); overflow: hidden; scroll-margin-top: 1rem; }
+.steckbrief header { display: flex; gap: 0.8rem; align-items: center; padding: 0.8rem 1.1rem; border-bottom: 2px solid var(--tinte); flex-wrap: wrap; }
+.sb-b header { background: var(--ill-blau-weich); }
+.sb-v header { background: var(--ill-rosa-weich); }
+.sb-symbol { width: 3.2rem; height: 3.2rem; flex: none; }
+.steckbrief h3 { margin: 0; font-size: 1.3rem; }
+.sb-auch { color: var(--tinte-weich); font-size: 0.95rem; }
+.sb-melde { margin-left: auto; font-size: 0.8rem; font-weight: 700; padding: 0.1rem 0.55rem; border-radius: 999px; border: 1.5px solid var(--falsch); color: var(--falsch); }
+.steckbrief dl { margin: 0; padding: 0.6rem 1.1rem 0.9rem; display: grid; gap: 0.15rem 1rem; }
+@media (min-width: 40rem) { .steckbrief dl { grid-template-columns: 9.5rem 1fr; } }
+.steckbrief dt { font-weight: 700; padding-top: 0.45rem; }
+.steckbrief dd { margin: 0; padding-top: 0.45rem; }
+@media (min-width: 40rem) { .steckbrief dt + dd { border-top: none; } .steckbrief dt:not(:first-of-type), .steckbrief dt:not(:first-of-type) + dd { border-top: 1px dashed var(--linie); } }
+.bereich > h3.unterteil { margin: 2rem 0 0.4rem; font-family: var(--schrift-hand); font-size: 1.7rem; color: var(--farbe); }
