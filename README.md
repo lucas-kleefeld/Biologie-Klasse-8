@@ -7,8 +7,8 @@ Die Inhalte orientieren sich am Kernlehrplan für das Wahlpflichtfach Biologie a
 
 | Nr. | Reihe | Inhaltsfeld (KLP WP Biologie) | Stand |
 |---|---|---|---|
-| 1 | [Abwehr von Krankheiten](reihe-1-abwehr-von-krankheiten/) | IF 2 Biologische Forschung und Medizin | Pilot fertig |
-| 2 | [Freundschaft, Liebe, Sexualität](reihe-2-freundschaft-liebe-sexualitaet/) | IF 7 Sexualerziehung | in Vorbereitung |
+| 1 | [Abwehr von Krankheiten](reihe-1-abwehr-von-krankheiten/) | IF 2 Biologische Forschung und Medizin | fertig |
+| 2 | [Freundschaft, Liebe, Sexualität](reihe-2-freundschaft-liebe-sexualitaet/) | IF 7 Sexualerziehung | fertig |
 | 3 | [Leben in Gewässern](reihe-3-leben-in-gewaessern/) | IF 1 Ökosysteme (Kontext Ökosystem See) | in Vorbereitung |
 | 4 | [Drogen und Sucht](reihe-4-drogen-und-sucht/) | über IF 5 Information und Regulation | in Vorbereitung |
 
@@ -25,6 +25,10 @@ reihe-x-name/
 ```
 
 Gemeinsames Design und die Übungsbausteine liegen in `assets/`.
+
+## Seiten neu erzeugen
+
+Alle HTML-Seiten werden aus den Python-Dateien im Ordner `werkzeug/` erzeugt. Nach Änderungen dort: `cd werkzeug && python3 bauen.py`. Texte, Aufgaben und Übungen stehen jeweils in eigenen Dateien (z. B. `reihe2_texte.py`, `reihe2_rest.py`).
 
 ## Datenschutz und Urheberrecht
 

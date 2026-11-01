@@ -481,3 +481,29 @@ h1, h2 { overflow-wrap: break-word; }
 .steckbrief dd { margin: 0; padding-top: 0.45rem; }
 @media (min-width: 40rem) { .steckbrief dt + dd { border-top: none; } .steckbrief dt:not(:first-of-type), .steckbrief dt:not(:first-of-type) + dd { border-top: 1px dashed var(--linie); } }
 .bereich > h3.unterteil { margin: 2rem 0 0.4rem; font-family: var(--schrift-hand); font-size: 1.7rem; color: var(--farbe); }
+
+/* ---------- Reihe 2: Modelle ---------- */
+.breit-regler { flex: 1; min-width: 12rem; accent-color: var(--farbe); }
+.schalter { display: inline-flex; gap: 0.5rem; align-items: center; }
+.schalter input { width: 1.2rem; height: 1.2rem; accent-color: var(--farbe); }
+#zy-bild, #sw-bild { display: block; width: 100%; height: auto; }
+#zy-bild .s, #sw-bild .s, #vh-raster .s { stroke: var(--tinte); stroke-width: 2.4; stroke-linejoin: round; }
+#zy-bild .s2, #sw-bild .s2 { stroke: var(--tinte); stroke-width: 1.6; }
+#zy-bild .d, #sw-bild .d { fill: var(--tinte); }
+#zy-bild .f-gelb, #sw-bild .f-gelb { fill: var(--ill-gelb); } #zy-bild .f-weiss, #sw-bild .f-weiss { fill: var(--flaeche); }
+#zy-bild .f-rosa, #sw-bild .f-rosa { fill: var(--ill-rosa); } #zy-bild .f-sand, #sw-bild .f-sand { fill: var(--ill-sand); }
+#sw-bild .f-rosa-weich { fill: var(--ill-rosa-weich); } #sw-bild .f-blau-weich { fill: var(--ill-blau-weich); }
+#zy-bild .k-rosa { stroke: var(--eosin); opacity: .55; }
+#vh-raster { display: block; width: 100%; height: auto; margin: 0.5rem 0; }
+.vh-p { fill: var(--flaeche); stroke: var(--linie); stroke-width: 1.5; }
+.vh-p.voll { fill: var(--eosin); stroke: var(--eosin); }
+.vh-p.teil { fill: color-mix(in srgb, var(--eosin) 35%, var(--flaeche)); stroke: var(--eosin); }
+.vh-leg { display: inline-block; width: 0.85rem; height: 0.85rem; border-radius: 50%; vertical-align: -0.1em; border: 1.5px solid var(--linie); background: var(--flaeche); }
+.vh-leg.voll { background: var(--eosin); border-color: var(--eosin); }
+.vh-leg.teil { background: color-mix(in srgb, var(--eosin) 35%, var(--flaeche)); border-color: var(--eosin); }
+.vh-zahl { font-family: var(--schrift-titel); font-weight: 700; font-size: 1.2rem; margin: 1rem 0 0; }
+.vh-info { display: grid; gap: 0.2rem 1rem; margin: 1rem 0 0; }
+@media (min-width: 40rem) { .vh-info { grid-template-columns: 12rem 1fr; } }
+.vh-info dt { font-weight: 700; }
+.vh-info dd { margin: 0 0 0.4rem; }
+#vh .wahl { margin-bottom: 0.25rem; }
