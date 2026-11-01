@@ -4,7 +4,7 @@ from basis import seite, uebung, REIHEN
 import zeichnungen as Z
 
 AFB_TEXT = {"I": "AFB I", "II": "AFB II", "III": "AFB III"}
-FERTIG = {1, 2}
+FERTIG = {1, 2, 3, 4}
 
 # ======================================================================
 # Daten der Reihen
@@ -38,6 +38,18 @@ FIGUREN = {
     "allergie_ablauf": (Z.allergie_ablauf, "Ablauf einer allergischen Reaktion (vereinfacht)."),
 }
 FIGUREN.update(Z2.FIGUREN)
+
+# Reihe 3
+import zeichnungen3 as Z3
+from reihe3_texte import LERNTEXTE as LT3
+from reihe3_rest import AUFGABEN as AUF3, UEBUNGEN as UEB3, MODELLE as MOD3, TRAINING as TRAIN3
+FIGUREN.update(Z3.FIGUREN)
+
+# Reihe 4
+import zeichnungen4 as Z4
+from reihe4_texte import LERNTEXTE as LT4
+from reihe4_rest import AUFGABEN as AUF4, UEBUNGEN as UEB4, MODELLE as MOD4, TRAINING as TRAIN4
+FIGUREN.update(Z4.FIGUREN)
 
 
 def figuren_einsetzen(text):
@@ -215,13 +227,6 @@ seite("index.html", "Übersicht", f"""
 </div>
 """, beschreibung="Materialien für den Wahlpflichtkurs Biologie, Klasse 8")
 
-for nr in (3, 4):
-    ordner, name = REIHEN[nr]
-    seite(f"{ordner}/index.html", name,
-          reihenkopf(nr, name, "Die Materialien zu dieser Reihe sind in Vorbereitung.", Z.karte_bild(nr))
-          + '<div class="huelle bereich"><p><a href="../index.html">Zurück zur Übersicht</a></p></div>',
-          reihe=nr, krumen=[(name, None)])
-
 # ======================================================================
 # Reihen bauen
 # ======================================================================
@@ -235,4 +240,16 @@ baue_reihe(2, LT2, AUF2, UEB2, MOD2,
            Z2.reihe2_kopf(), training=TRAIN2,
            training_text="Wiederhole die wichtigsten Inhalte der Reihe: Fachbegriffe, Zyklus, Verhütung und Infektionsschutz.",
            vorwort=Z2.VORWORT, training_titel="Wiederholen und vertiefen")
+
+baue_reihe(3, LT3, AUF3, UEB3, MOD3,
+           "Wie Pflanzen und Tiere im See zusammenleben, wie Energie und Stoffe weitergegeben werden, wie sich der See im Jahreslauf verändert und wie man Gewässer untersucht und schützt.",
+           Z3.reihe3_kopf(), training=TRAIN3,
+           training_text="Wiederhole die wichtigsten Inhalte der Reihe: Fachbegriffe, Eutrophierung und das Erklären in ganzen Sätzen.",
+           training_titel="Wiederholen und vertiefen")
+
+baue_reihe(4, LT4, AUF4, UEB4, MOD4,
+           "Was Suchtmittel im Körper und im Gehirn bewirken, wie aus Genuss Abhängigkeit werden kann, welche Gesetze gelten und wo es Hilfe gibt.",
+           Z4.reihe4_kopf(), training=TRAIN4,
+           training_text="Wiederhole die wichtigsten Inhalte der Reihe: Fachbegriffe, Herkunft der Drogen und das Erklären in ganzen Sätzen.",
+           vorwort=Z4.VORWORT, training_titel="Wiederholen und vertiefen")
 print("fertig")

@@ -178,9 +178,10 @@
     container.appendChild(rueck);
 
     function pruefen() {
-      var n = 0, offen = 0;
+      var n = 0, offen = zeilen.filter(function (z) { return !z.gewaehlt; }).length;
+      rueck.innerHTML = "";
+      if (offen) { rueck.textContent = "Ordne zuerst alle Aussagen zu (" + offen + " offen). Erst dann wird geprüft."; return; }
       zeilen.forEach(function (z) {
-        if (!z.gewaehlt) { offen++; return; }
         var ok = z.gewaehlt === z.loesung;
         z.zeile.classList.toggle("ist-richtig", ok);
         z.zeile.classList.toggle("ist-falsch", !ok);

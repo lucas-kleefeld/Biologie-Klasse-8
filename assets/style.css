@@ -507,3 +507,56 @@ h1, h2 { overflow-wrap: break-word; }
 .vh-info dt { font-weight: 700; }
 .vh-info dd { margin: 0 0 0.4rem; }
 #vh .wahl { margin-bottom: 0.25rem; }
+
+/* =========================================================
+   Reihe 3: Formeln und Modelle
+   ========================================================= */
+.formel { margin: 1.2rem 0; padding: 0.8rem 1rem; border: 2px dashed var(--farbe); border-radius: 12px; background: var(--flaeche); text-align: center; font-weight: 700; font-size: 1.08rem; line-height: 1.6; }
+.formel.klein { margin-top: -0.6rem; border-style: dotted; font-weight: 400; font-size: 1rem; color: var(--tinte-weich); }
+.pfeil-formel { display: inline-block; white-space: nowrap; color: var(--farbe); font-family: var(--schrift-hand); font-size: 1.25rem; padding: 0 0.3rem; }
+.se-zone { fill: color-mix(in srgb, var(--farbe) 20%, transparent); stroke: var(--farbe); stroke-width: 3; stroke-dasharray: 8 6; }
+.se-leg-t { fill: var(--eosin); } .se-leg-o { fill: var(--methylenblau); }
+#se .wahl { margin: 0.6rem 0; }
+.fo-licht { fill: var(--ill-gelb); }
+.fo-thermo, .fo-thermo-k { fill: var(--eosin); }
+#fo-tabelle td, #fo-tabelle th { text-align: center; }
+.nn-knoten { cursor: pointer; outline: none; }
+.nn-knoten:focus-visible rect { stroke: var(--farbe); stroke-width: 4; }
+.nn-knoten.weg rect { fill: var(--flaeche); stroke-dasharray: 5 5; }
+.nn-knoten.weg text.hk, .nn-knoten.tot text.hk { text-decoration: line-through; opacity: .6; }
+.nn-knoten.tot rect { fill: var(--papier); stroke-dasharray: 3 4; }
+.nn-knoten.weniger rect { stroke: var(--eosin); stroke-width: 3.5; }
+.nn-knoten.mehr rect { stroke: var(--malachit); stroke-width: 3.5; }
+.nn-marke { fill: var(--tinte); }
+.nn-knoten.weniger .nn-marke { fill: var(--eosin); } .nn-knoten.mehr .nn-marke { fill: var(--malachit); }
+.nn-marke-t { fill: var(--flaeche); font-weight: 700; font-size: 15px; }
+.nn-kante.aus { opacity: .2; }
+.nn-leg, .rb-leg { display: inline-block; width: 1rem; height: 0.85rem; border-radius: 4px; vertical-align: -0.1em; border: 2px solid var(--tinte); background: var(--flaeche); }
+.nn-leg.weg { border-style: dashed; } .nn-leg.weniger { border-color: var(--eosin); } .nn-leg.mehr { border-color: var(--malachit); } .nn-leg.tot { background: var(--papier); border-style: dotted; }
+.rb-beute { stroke: var(--methylenblau); stroke-width: 3.5; stroke-linejoin: round; }
+.rb-raeuber { stroke: var(--eosin); stroke-width: 3.5; stroke-linejoin: round; }
+.rb-punkt-b { fill: var(--methylenblau); } .rb-punkt-r { fill: var(--eosin); }
+.rb-gitter { stroke: var(--linie); stroke-width: 1; }
+.rb-leg { height: 0.3rem; border: none; border-radius: 2px; vertical-align: 0.2em; }
+.rb-leg.beute { background: var(--methylenblau); } .rb-leg.raeuber { background: var(--eosin); }
+
+/* =========================================================
+   Reihe 4: Modelle
+   ========================================================= */
+.tk-station rect { transition: transform .2s; }
+.tk-station.aktiv rect { stroke: var(--farbe); stroke-width: 5; }
+.tk-pfeil { stroke: var(--linie); stroke-width: 2.4; }
+.tk-pfeil.aktiv { stroke: var(--farbe); stroke-width: 4; }
+.tk-stein { fill: var(--tinte-weich); opacity: .55; }
+.tk-menge { fill: var(--farbe); }
+.tk-ausstieg { font-weight: 700; color: var(--farbe); }
+.bs-dopa { fill: var(--methylenblau); }
+.bs-gut { fill: var(--malachit); } .bs-schlecht { fill: var(--eosin); }
+.pm-gitter { stroke: var(--linie); stroke-width: 1; }
+.pm-grenze { stroke: var(--eosin); stroke-width: 1.6; stroke-dasharray: 6 5; }
+.pm-kurve { stroke: var(--farbe); stroke-width: 3.5; stroke-linejoin: round; }
+.pm-punkt { fill: var(--farbe); }
+.pm-glas-bier { fill: var(--ill-gelb); stroke: var(--tinte); } .pm-glas-wein { fill: var(--ill-rosa-tief); stroke: var(--tinte); }
+.pm-glas-alkopop { fill: var(--ill-blau-tief); stroke: var(--tinte); } .pm-glas-schnaps { fill: var(--flaeche); stroke: var(--tinte); }
+.pm-sicht { border-radius: 14px; overflow: hidden; border: 2px solid var(--tinte); }
+#pm .wahl { margin: 0.3rem 0; }

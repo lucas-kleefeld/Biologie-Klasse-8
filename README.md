@@ -9,8 +9,8 @@ Die Inhalte orientieren sich am Kernlehrplan für das Wahlpflichtfach Biologie a
 |---|---|---|---|
 | 1 | [Abwehr von Krankheiten](reihe-1-abwehr-von-krankheiten/) | IF 2 Biologische Forschung und Medizin | fertig |
 | 2 | [Freundschaft, Liebe, Sexualität](reihe-2-freundschaft-liebe-sexualitaet/) | IF 7 Sexualerziehung | fertig |
-| 3 | [Leben in Gewässern](reihe-3-leben-in-gewaessern/) | IF 1 Ökosysteme (Kontext Ökosystem See) | in Vorbereitung |
-| 4 | [Drogen und Sucht](reihe-4-drogen-und-sucht/) | über IF 5 Information und Regulation | in Vorbereitung |
+| 3 | [Leben in Gewässern](reihe-3-leben-in-gewaessern/) | IF 1 Ökosysteme (Kontext Ökosystem See) | fertig |
+| 4 | [Drogen und Sucht](reihe-4-drogen-und-sucht/) | schulinterner Kontext, Bezug zu IF 5 Information und Regulation | fertig |
 
 ## Aufbau einer Reihe
 
