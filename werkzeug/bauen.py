@@ -99,7 +99,7 @@ def baue_reihe(nr, lerntexte, aufgaben, uebungen, modelle, kopftext, kopfbild, t
         # Gesperrte Reihe: keine Inhalte veröffentlichen, nur einen Hinweis
         for unter in ("lerntexte", "aufgaben", "uebungen", "modelle"):
             _shutil.rmtree(_os.path.join(REPO, ordner, unter), ignore_errors=True)
-        seite(f"{ordner}/index.html", name, reihenkopf(nr, name, "Diese Reihe ist noch nicht freigeschaltet. Deine Lehrkraft schaltet sie frei, sobald ihr im Unterricht damit beginnt.", kopfbild)
+        seite(f"{ordner}/index.html", name, reihenkopf(nr, name, "Diese Reihe ist noch nicht freigeschaltet. Deine Lehrkraft schaltet sie frei, sobald ihr im Unterricht damit anfangt.", kopfbild)
               + '<div class="huelle bereich"><p><a class="knopf" href="../index.html">Zurück zur Übersicht</a></p></div>',
               reihe=nr, krumen=[(name, None)], beschreibung=f"Unterrichtsreihe {name}, noch nicht freigeschaltet")
         return
