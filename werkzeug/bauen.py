@@ -6,6 +6,13 @@ import zeichnungen as Z
 AFB_TEXT = {"I": "AFB I", "II": "AFB II", "III": "AFB III"}
 FERTIG = {1, 2, 3, 4}
 
+# Freischaltung durch die Lehrkraft: freigabe.json im Hauptordner des Repositorys
+import json as _json, os as _os, shutil as _shutil
+from basis import REPO
+with open(_os.path.join(REPO, "freigabe.json"), encoding="utf-8") as _f:
+    _FREI = _json.load(_f)
+FREI = {int(k.split()[-1]) for k, v in _FREI.items() if k.startswith("Reihe") and v is True}
+
 # ======================================================================
 # Daten der Reihen
 # ======================================================================
@@ -88,6 +95,14 @@ def kurztitel(t):
 def baue_reihe(nr, lerntexte, aufgaben, uebungen, modelle, kopftext, kopfbild, training=None, training_text="", vorwort="", training_titel="Training für die Kursarbeit"):
     ordner, name = REIHEN[nr]
     alle_uebungen = uebungen + (training or [])
+    if nr not in FREI:
+        # Gesperrte Reihe: keine Inhalte veröffentlichen, nur einen Hinweis
+        for unter in ("lerntexte", "aufgaben", "uebungen", "modelle"):
+            _shutil.rmtree(_os.path.join(REPO, ordner, unter), ignore_errors=True)
+        seite(f"{ordner}/index.html", name, reihenkopf(nr, name, "Diese Reihe ist noch nicht freigeschaltet. Deine Lehrkraft schaltet sie frei, sobald ihr im Unterricht damit beginnt.", kopfbild)
+              + '<div class="huelle bereich"><p><a class="knopf" href="../index.html">Zurück zur Übersicht</a></p></div>',
+              reihe=nr, krumen=[(name, None)], beschreibung=f"Unterrichtsreihe {name}, noch nicht freigeschaltet")
+        return
 
     for i, lt in enumerate(lerntexte):
         vor = lerntexte[i - 1] if i > 0 else None
@@ -200,9 +215,9 @@ beschr = {
 }
 karten = []
 for nr, (ordner, name) in REIHEN.items():
-    fertig = nr in FERTIG
+    fertig = nr in FERTIG and nr in FREI
     klasse = "reihe-karte" + ("" if fertig else " in-arbeit")
-    stand = "Materialien ansehen" if fertig else "In Vorbereitung"
+    stand = "Materialien ansehen" if fertig else ("Noch nicht freigeschaltet" if nr in FERTIG else "In Vorbereitung")
     karten.append(
         f'<li class="reihe-{nr}"><a class="{klasse}" href="{ordner}/index.html">'
         f'<div class="bildflaeche">{Z.karte_bild(nr)}</div>'

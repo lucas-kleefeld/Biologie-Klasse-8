@@ -7,10 +7,22 @@ Die Inhalte orientieren sich am Kernlehrplan für das Wahlpflichtfach Biologie a
 
 | Nr. | Reihe | Inhaltsfeld (KLP WP Biologie) | Stand |
 |---|---|---|---|
-| 1 | [Abwehr von Krankheiten](reihe-1-abwehr-von-krankheiten/) | IF 2 Biologische Forschung und Medizin | fertig |
-| 2 | [Freundschaft, Liebe, Sexualität](reihe-2-freundschaft-liebe-sexualitaet/) | IF 7 Sexualerziehung | fertig |
-| 3 | [Leben in Gewässern](reihe-3-leben-in-gewaessern/) | IF 1 Ökosysteme (Kontext Ökosystem See) | fertig |
-| 4 | [Drogen und Sucht](reihe-4-drogen-und-sucht/) | schulinterner Kontext, Bezug zu IF 5 Information und Regulation | fertig |
+| 1 | [Abwehr von Krankheiten](reihe-1-abwehr-von-krankheiten/) | IF 2 Biologische Forschung und Medizin | fertig, freischaltbar |
+| 2 | [Freundschaft, Liebe, Sexualität](reihe-2-freundschaft-liebe-sexualitaet/) | IF 7 Sexualerziehung | fertig, freischaltbar |
+| 3 | [Leben in Gewässern](reihe-3-leben-in-gewaessern/) | IF 1 Ökosysteme (Kontext Ökosystem See) | fertig, freischaltbar |
+| 4 | [Drogen und Sucht](reihe-4-drogen-und-sucht/) | schulinterner Kontext, Bezug zu IF 5 Information und Regulation | fertig, freischaltbar |
+
+## Reihen freischalten (für Lehrkräfte)
+
+Welche Reihen Schülerinnen und Schüler sehen, steht in der Datei [`freigabe.json`](freigabe.json):
+
+1. Auf GitHub die Datei `freigabe.json` öffnen und auf den Stift („Edit this file“) klicken.
+2. Bei der gewünschten Reihe `false` durch `true` ersetzen (zum Sperren umgekehrt).
+3. Unten auf „Commit changes“ klicken.
+
+Danach erzeugt GitHub die Seiten automatisch neu (Reiter „Actions“). Nach etwa zwei Minuten ist die Reihe auf der Website freigeschaltet. Gesperrte Reihen werden gar nicht als Seiten veröffentlicht; Schülerinnen und Schüler sehen nur den Hinweis „Noch nicht freigeschaltet“.
+
+Hinweis: Weil das Repository öffentlich ist, sind die Quelltexte im Ordner `werkzeug/` auf GitHub weiterhin einsehbar. Wer gezielt im Repository sucht, kann die Texte dort also lesen. Auf der Website selbst sind gesperrte Reihen nicht erreichbar.
 
 ## Aufbau einer Reihe
 
