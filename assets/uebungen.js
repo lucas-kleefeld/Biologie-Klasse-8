@@ -114,17 +114,20 @@
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
     var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung });
     var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
+    var pruefKnopf = el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen });
     var knoepfe = el("div", { class: "knopfreihe" }, [
-      el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
+      pruefKnopf,
       loesungKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "zuordnen", daten); } })
     ]);
     container.appendChild(knoepfe); container.appendChild(sperre); container.appendChild(rueck);
     function offen() { return zeilen.filter(function (z) { return !z.sel.value; }).length; }
-    sperreAktualisieren(loesungKnopf, sperre, offen, "Zuordnung");
-    zeilen.forEach(function (z) { z.sel.addEventListener("change", function () { sperreAktualisieren(loesungKnopf, sperre, offen, "Zuordnung"); }); });
+    function sperre_() { sperreAktualisieren([pruefKnopf, loesungKnopf], sperre, offen, "Zuordnung", "Zuordnungen"); }
+    sperre_();
+    zeilen.forEach(function (z) { z.sel.addEventListener("change", function () { z.zeile.classList.remove("ist-richtig", "ist-falsch"); sperre_(); }); });
 
     function pruefen() {
+      if (offen()) return;
       var n = 0;
       zeilen.forEach(function (z) {
         var ok = z.sel.value === z.loesung;
@@ -171,16 +174,21 @@
       zeilen.push(z); container.appendChild(zeile);
     });
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
+    var pruefKnopf = el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen });
+    var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
     container.appendChild(el("div", { class: "knopfreihe" }, [
-      el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
+      pruefKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "sortieren", daten); } })
     ]));
-    container.appendChild(rueck);
+    container.appendChild(sperre); container.appendChild(rueck);
+    function offenZahl() { return zeilen.filter(function (z) { return !z.gewaehlt; }).length; }
+    function sperre_() { sperreAktualisieren(pruefKnopf, sperre, offenZahl, "Aussage", "Aussagen", "nicht zugeordnet"); }
+    zeilen.forEach(function (z) { z.knoepfe.forEach(function (b) { b.addEventListener("click", sperre_); }); });
+    sperre_();
 
     function pruefen() {
-      var n = 0, offen = zeilen.filter(function (z) { return !z.gewaehlt; }).length;
-      rueck.innerHTML = "";
-      if (offen) { rueck.textContent = "Ordne zuerst alle Aussagen zu (" + offen + " offen). Erst dann wird geprüft."; return; }
+      var n = 0, offen = offenZahl();
+      if (offen) return;
       zeilen.forEach(function (z) {
         var ok = z.gewaehlt === z.loesung;
         z.zeile.classList.toggle("ist-richtig", ok);
@@ -192,7 +200,6 @@
         }
       });
       rueck.innerHTML = "";
-      if (offen) { rueck.textContent = "Ordne zuerst alle Aussagen zu (" + offen + " offen)."; return; }
       rueck.appendChild(el("strong", { class: n === zeilen.length ? "gut" : "schlecht", text: n + " von " + zeilen.length + " richtig. " }));
       rueck.appendChild(document.createTextNode(lob(n / zeilen.length)));
     }
@@ -217,18 +224,21 @@
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
     var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung });
     var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
+    var pruefKnopf = el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen });
     container.appendChild(el("div", { class: "knopfreihe" }, [
-      el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
+      pruefKnopf,
       loesungKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "lueckentext", daten); } })
     ]));
     container.appendChild(sperre); container.appendChild(rueck);
     function offen() { return Array.prototype.filter.call(text.querySelectorAll("input"), function (f) { return !f.value.trim(); }).length; }
-    sperreAktualisieren(loesungKnopf, sperre, offen, "Lücke");
-    text.addEventListener("input", function () { sperreAktualisieren(loesungKnopf, sperre, offen, "Lücke"); });
+    function sperre_() { sperreAktualisieren([pruefKnopf, loesungKnopf], sperre, offen, "Lücke", "Lücken"); }
+    sperre_();
+    text.addEventListener("input", function (ev) { if (ev.target.classList) ev.target.classList.remove("ist-richtig", "ist-falsch"); sperre_(); });
 
     function norm(s) { return s.toLowerCase().replace(/\s+/g, " ").trim(); }
     function pruefen() {
+      if (offen()) return;
       var n = 0, felder = text.querySelectorAll("input");
       Array.prototype.forEach.call(felder, function (f) {
         var ok = luecken[+f.dataset.nr].some(function (m) { return norm(m) === norm(f.value); });
@@ -261,10 +271,22 @@
     var ol = el("ol", { class: "reihen-liste" });
     var rueck = el("p", { class: "rueckmeldung", "aria-live": "polite" });
     var loesungKnopf = el("button", { class: "knopf leise", type: "button", text: "Lösung zeigen", onclick: loesung, disabled: "" });
-    var sperre = el("p", { class: "legende loesung-sperre", text: "Die Lösung kannst du ansehen, nachdem du deine Reihenfolge geprüft hast." });
+    var sperre = el("p", { class: "legende loesung-sperre", "aria-live": "polite" });
+    var pruefKnopf = el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen });
+    var bewegt = {};
+    function offen() { return liste.filter(function (t) { return !bewegt[t]; }).length; }
+    function sperre_() {
+      var n = offen();
+      pruefKnopf.disabled = n > 0;
+      pruefKnopf.title = n > 0 ? "Bearbeite zuerst die ganze Aufgabe." : "";
+      sperre.textContent = n > 0
+        ? "„Prüfen“ geht erst, wenn du jeden Schritt mindestens einmal verschoben hast. Noch " + n + (n === 1 ? " Schritt" : " Schritte") + " nicht verschoben."
+        : (geprueft ? "" : "Die Lösung kannst du ansehen, nachdem du deine Reihenfolge geprüft hast.");
+      sperre.hidden = !sperre.textContent;
+    }
     container.appendChild(ol);
     container.appendChild(el("div", { class: "knopfreihe" }, [
-      el("button", { class: "knopf", type: "button", text: "Prüfen", onclick: pruefen }),
+      pruefKnopf,
       loesungKnopf,
       el("button", { class: "knopf leise", type: "button", text: "Neu starten", onclick: function () { neuAufbauen(container, "reihenfolge", daten); } })
     ]));
@@ -285,16 +307,19 @@
     }
     function tausche(a, b, t, richtung) {
       var x = liste[a]; liste[a] = liste[b]; liste[b] = x;
-      rueck.textContent = ""; zeichnen(t, richtung);
+      bewegt[liste[a]] = true; bewegt[liste[b]] = true;
+      Array.prototype.forEach.call(ol.children, function (li) { li.classList.remove("ist-richtig", "ist-falsch"); });
+      rueck.textContent = ""; zeichnen(t, richtung); sperre_();
     }
     function pruefen() {
+      if (offen()) return;
       var n = 0;
       Array.prototype.forEach.call(ol.children, function (li, i) {
         var ok = liste[i] === richtig[i];
         li.classList.toggle("ist-richtig", ok); li.classList.toggle("ist-falsch", !ok);
         if (ok) n++;
       });
-      geprueft = true; loesungKnopf.disabled = false; sperre.hidden = true;
+      geprueft = true; loesungKnopf.disabled = false; sperre_();
       rueck.innerHTML = "";
       rueck.appendChild(el("strong", { class: n === liste.length ? "gut" : "schlecht", text: n + " von " + liste.length + " an der richtigen Stelle. " }));
       rueck.appendChild(document.createTextNode(lob(n / liste.length)));
@@ -305,7 +330,7 @@
       Array.prototype.forEach.call(ol.children, function (li) { li.classList.add("ist-richtig"); });
       rueck.textContent = "So ist die richtige Reihenfolge. Vergleiche sie mit deinem Versuch.";
     }
-    zeichnen();
+    zeichnen(); sperre_();
   }
 
   /* ---------- Schreibtraining ----------
@@ -357,12 +382,15 @@
   }
 
   /* Lösung erst freigeben, wenn alle Felder ausgefüllt sind */
-  function sperreAktualisieren(knopf, hinweis, offen, wort) {
+  /* Prüfen und Lösung erst freigeben, wenn die Aufgabe vollständig bearbeitet ist */
+  function sperreAktualisieren(knoepfe, hinweis, offen, einzahl, mehrzahl, rest) {
     var n = offen();
-    knopf.disabled = n > 0;
-    knopf.title = n > 0 ? "Fülle zuerst alle Felder aus." : "";
+    [].concat(knoepfe).forEach(function (k) {
+      k.disabled = n > 0;
+      k.title = n > 0 ? "Bearbeite zuerst die ganze Aufgabe." : "";
+    });
     hinweis.textContent = n > 0
-      ? "Die Lösung kannst du ansehen, sobald alles ausgefüllt ist. Noch " + n + " " + (n === 1 ? wort : wort + (wort === "Lücke" ? "n" : "en")) + " offen."
+      ? [].concat(knoepfe).map(function (k) { return "„" + k.textContent + "“"; }).join(" und ") + ([].concat(knoepfe).length > 1 ? " gehen" : " geht") + " erst, wenn du alles bearbeitet hast. Noch " + n + " " + (n === 1 ? einzahl : mehrzahl) + " " + (rest || "offen") + "."
       : "";
     hinweis.hidden = n === 0;
   }
