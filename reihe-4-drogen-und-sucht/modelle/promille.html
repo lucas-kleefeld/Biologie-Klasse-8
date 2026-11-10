@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modell: Promille und Rauschbrille – Biologie Klasse 8</title>
+  <meta name="description" content="Promille-Verlauf eines Abends und wie Alkohol die Wahrnehmung verändert">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="../../assets/reihe4.js" defer></script>
+</head>
+<body class="reihe-4">
+  <header class="kopf">
+    <div class="huelle">
+      <a class="marke" href="../../index.html"><svg class="ill" viewBox="0 0 40 40" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><g transform="translate(20 20) rotate(0)"><path class="s f-gruen" d="M16.0 0.0 Q16.2 3.6 14.5 6.8 Q11.7 9.2 7.5 10.6 Q4.0 12.7 0.0 13.5 Q-4.3 13.2 -8.1 11.4 Q-11.3 9.3 -13.1 6.2 Q-15.9 3.3 -16.9 0.0 Q-16.1 -3.4 -13.5 -6.4 Q-11.3 -9.2 -7.8 -11.0 Q-4.1 -13.1 -0.0 -13.7 Q4.0 -13.0 7.6 -10.7 Q11.4 -9.1 14.0 -6.6 Q15.9 -3.5 16.0 0.0Z"/><circle class="s f-weiss" cx="2.4" cy="-1.3" r="4.2"/><circle class="d" cx="3.2" cy="-1.6" r="1.3"/></g></svg>Biologie Klasse 8</a>
+      <nav aria-label="Brotkrümel"><ol class="pfad"><li><a href="../index.html">Drogen und Sucht</a></li><li aria-current="page">Modell</li></ol></nav>
+    </div>
+  </header>
+  <main id="inhalt">
+
+<article class="spalte lerntext">
+  <div class="uebung-kopf"><svg class="ill symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><g transform="translate(22 36) scale(0.8)"><path class="s f-rosa-tief" d="M-13 -30 Q -13 -6 0 -4 Q 13 -6 13 -30 Z"/><path class="s2" fill="none" d="M0 -4 V 18 M -10 20 H 10"/></g><text class="h" x="46" y="44" text-anchor="middle">‰</text></svg><h1>Modell: Promille und Rauschbrille</h1></div>
+  
+<p class="lead">Wie verändert sich die Menge Alkohol im Blut im Laufe eines Abends? Das Modell zeigt den Verlauf für eine erwachsene Person. Für Kinder und Jugendliche gibt es keine unbedenkliche Menge.</p>
+<div class="modell" id="pm">
+  <div class="modell-steuerung">
+    <span>Person:</span>
+    <div class="wahl" role="group" aria-label="Person wählen">
+      <button type="button" data-person="w" aria-pressed="true">Frau, 60 kg</button>
+      <button type="button" data-person="m" aria-pressed="false">Mann, 80 kg</button>
+    </div>
+  </div>
+  <div class="modell-steuerung">
+    <span>Getränk um <strong id="pm-zeit-t">20:00</strong> Uhr hinzufügen:</span>
+    <div class="wahl" role="group" aria-label="Getränk hinzufügen">
+      <button type="button" data-getraenk="bier">Bier 0,33 l</button>
+      <button type="button" data-getraenk="wein">Wein 0,2 l</button>
+      <button type="button" data-getraenk="alkopop">Mixgetränk 0,275 l</button>
+      <button type="button" data-getraenk="schnaps">Schnaps 2 cl</button>
+    </div>
+  </div>
+  <div class="modell-steuerung">
+    <label for="pm-zeit">Uhrzeit</label>
+    <input type="range" id="pm-zeit" min="0" max="48" value="0" class="breit-regler">
+    <button class="knopf leise" type="button" id="pm-leeren">Alles zurücksetzen</button>
+  </div>
+  <svg id="pm-bild" class="ill" viewBox="0 0 760 330" role="img" aria-label="Diagramm des Promillewertes über die Zeit"></svg>
+  <p class="vh-zahl" id="pm-wert" aria-live="polite"></p>
+  <h3>Rauschbrillen-Simulation</h3>
+  <p class="legende">So ungefähr verändert sich die Wahrnehmung beim eingestellten Wert. Die Simulation ist stark vereinfacht.</p>
+  <svg id="pm-sicht" class="ill pm-sicht" viewBox="0 0 760 260" role="img" aria-label="Straßenszene, die je nach Promillewert verschwommen, doppelt und eingeengt dargestellt wird"></svg>
+  <div class="schritt-text" aria-live="polite"><p id="pm-text"></p></div>
+</div>
+<h2>Arbeitsaufträge</h2>
+<ol>
+  <li>Füge für die Frau um 20 Uhr ein Bier hinzu. Lies den höchsten Wert ab und bestimme, wann der Alkohol abgebaut ist.</li>
+  <li>Vergleiche den Verlauf bei der Frau und beim Mann mit den gleichen Getränken. Erkläre den Unterschied.</li>
+  <li>Stelle einen Abend mit vier Getränken zusammen. Bestimme, ob die Person am nächsten Morgen um 7 Uhr wieder nüchtern ist.</li>
+  <li>Beschreibe mithilfe der Rauschbrillen-Simulation, warum schon bei 0,5 Promille das Unfallrisiko deutlich steigt.</li>
+</ol>
+<h3>Grenzen des Modells</h3>
+<p>Das Modell rechnet mit einer vereinfachten Formel (nach Widmark), einer gleichmäßigen Aufnahme innerhalb einer Stunde und einem Abbau von 0,15 Promille pro Stunde. In Wirklichkeit hängt der Verlauf auch von Essen, Trinkgeschwindigkeit, Gesundheit und Gewöhnung ab, und der Abbau ist von Mensch zu Mensch verschieden. Das Modell eignet sich deshalb nicht, um auszurechnen, ob man Auto fahren darf. Für Fahranfängerinnen und Fahranfänger gilt ohnehin 0,0 Promille.</p>
+
+  <nav class="weiter" aria-label="Navigation"><a href="../index.html">Zur Übersicht der Reihe</a></nav>
+</article>
+  </main>
+  <footer class="fuss">
+    <div class="huelle">
+      <p>Wahlpflichtkurs Biologie, Klasse 8. Die Übungen speichern keine Daten und funktionieren ohne Anmeldung.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modell: Nahrungsnetz im See – Biologie Klasse 8</title>
+  <meta name="description" content="Eine Art entfernen und die Folgen beobachten">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="../../assets/reihe3.js" defer></script>
+</head>
+<body class="reihe-3">
+  <header class="kopf">
+    <div class="huelle">
+      <a class="marke" href="../../index.html"><svg class="ill" viewBox="0 0 40 40" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><g transform="translate(20 20) rotate(0)"><path class="s f-gruen" d="M16.0 0.0 Q16.2 3.6 14.5 6.8 Q11.7 9.2 7.5 10.6 Q4.0 12.7 0.0 13.5 Q-4.3 13.2 -8.1 11.4 Q-11.3 9.3 -13.1 6.2 Q-15.9 3.3 -16.9 0.0 Q-16.1 -3.4 -13.5 -6.4 Q-11.3 -9.2 -7.8 -11.0 Q-4.1 -13.1 -0.0 -13.7 Q4.0 -13.0 7.6 -10.7 Q11.4 -9.1 14.0 -6.6 Q15.9 -3.5 16.0 0.0Z"/><circle class="s f-weiss" cx="2.4" cy="-1.3" r="4.2"/><circle class="d" cx="3.2" cy="-1.6" r="1.3"/></g></svg>Biologie Klasse 8</a>
+      <nav aria-label="Brotkrümel"><ol class="pfad"><li><a href="../index.html">Leben in Gewässern</a></li><li aria-current="page">Modell</li></ol></nav>
+    </div>
+  </header>
+  <main id="inhalt">
+
+<article class="spalte lerntext">
+  <div class="uebung-kopf"><svg class="ill symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><circle class="s2 f-gruen" cx="14" cy="48" r="6"/><circle class="s2 f-gelb" cx="32" cy="30" r="6"/><circle class="s2 f-gruen" cx="50" cy="12" r="6"/><circle class="s2 f-sand" cx="50" cy="44" r="6"/><path class="s2" d="M18 44 L 28 34 M 36 26 L 46 16 M 18 48 L 44 44 M 48 38 L 36 34" fill="none"/></svg><h1>Modell: Nahrungsnetz im See</h1></div>
+  
+<p class="lead">Tippe auf eine Art, um sie aus dem See zu entfernen, zum Beispiel weil sie durch eine Krankheit ausstirbt oder überfischt wird. Das Modell zeigt, welche Arten betroffen sind.</p>
+<div class="modell" id="nn">
+  <svg id="nn-bild" class="ill" viewBox="0 0 820 340" role="img" aria-label="Nahrungsnetz zum Antippen"></svg>
+  <p class="legende"><span class="nn-leg weg"></span> entfernt &nbsp; <span class="nn-leg weniger"></span> verliert Nahrung, wird seltener &nbsp; <span class="nn-leg mehr"></span> weniger Fressfeinde, wird häufiger &nbsp; <span class="nn-leg tot"></span> findet keine Nahrung mehr</p>
+  <div class="knopfreihe"><button class="knopf leise" type="button" id="nn-reset">Alle Arten zurück</button></div>
+  <div class="schritt-text" aria-live="polite"><h3 id="nn-titel">Wähle eine Art aus</h3><p id="nn-text">Die Pfeile zeigen vom Gefressenen zum Fresser.</p></div>
+</div>
+<script type="application/json" id="nn-daten">{"knoten": {"algen": {"x": 110, "y": 290, "name": "Algen", "f": "f-gruen"}, "pflanzen": {"x": 300, "y": 300, "name": "Wasserpflanzen", "f": "f-gruen"}, "floh": {"x": 90, "y": 200, "name": "Wasserfloh", "f": "f-blau-weich"}, "schnecke": {"x": 290, "y": 210, "name": "Schnecke", "f": "f-sand"}, "muecke": {"x": 470, "y": 230, "name": "Mückenlarve", "f": "f-sand"}, "rotauge": {"x": 160, "y": 120, "name": "Rotauge", "f": "f-gelb"}, "barsch": {"x": 350, "y": 120, "name": "Barsch", "f": "f-gelb"}, "libelle": {"x": 520, "y": 140, "name": "Libellenlarve", "f": "f-sand"}, "hecht": {"x": 230, "y": 36, "name": "Hecht", "f": "f-gruen"}, "reiher": {"x": 460, "y": 40, "name": "Graureiher", "f": "f-weiss"}, "destruenten": {"x": 560, "y": 310, "name": "Bakterien, Pilze", "f": "f-rosa"}}, "kanten": [["algen", "floh"], ["algen", "schnecke"], ["pflanzen", "schnecke"], ["pflanzen", "rotauge"], ["algen", "muecke"], ["floh", "rotauge"], ["floh", "barsch"], ["muecke", "barsch"], ["muecke", "libelle"], ["schnecke", "rotauge"], ["rotauge", "hecht"], ["barsch", "hecht"], ["rotauge", "reiher"], ["barsch", "reiher"], ["libelle", "barsch"]]}</script>
+<h2>Arbeitsaufträge</h2>
+<ol>
+  <li>Entferne den Hecht. Beschreibe, welche Arten häufiger werden, und erkläre, welche Folgen das wiederum für die Wasserflöhe und Algen haben kann.</li>
+  <li>Entferne den Wasserfloh. Erkläre, warum keine Art völlig verschwindet, obwohl der Wasserfloh für viele Tiere Nahrung ist.</li>
+  <li>Entferne nacheinander Algen und Wasserpflanzen. Erkläre, warum die Produzenten für das ganze Ökosystem unverzichtbar sind.</li>
+  <li>Erkläre mithilfe des Modells, warum ein Nahrungsnetz stabiler ist als eine einzelne Nahrungskette.</li>
+</ol>
+<h3>Grenzen des Modells</h3>
+<p>Ein echtes Nahrungsnetz im See umfasst hunderte Arten. Das Modell zeigt nur die direkten Folgen: Es sagt nicht, wie stark sich die Bestände ändern, und berücksichtigt nicht, dass Tiere auf ganz andere Nahrung ausweichen oder neue Arten einwandern können.</p>
+
+  <nav class="weiter" aria-label="Navigation"><a href="../index.html">Zur Übersicht der Reihe</a></nav>
+</article>
+  </main>
+  <footer class="fuss">
+    <div class="huelle">
+      <p>Wahlpflichtkurs Biologie, Klasse 8. Die Übungen speichern keine Daten und funktionieren ohne Anmeldung.</p>
+    </div>
+  </footer>
+</body>
+</html>
