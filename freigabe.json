@@ -1,7 +1,7 @@
 {
   "Hinweis": "Zum Freischalten einer Reihe false durch true ersetzen und speichern (Commit). Zum Sperren true durch false ersetzen. Die Website aktualisiert sich nach etwa zwei Minuten.",
   "Reihe 1": true,
-  "Reihe 2": false,
-  "Reihe 3": false,
-  "Reihe 4": false
+  "Reihe 2": true,
+  "Reihe 3": true,
+  "Reihe 4": true
 }
