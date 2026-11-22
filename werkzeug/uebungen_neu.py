@@ -104,6 +104,29 @@ TRAINING = [
 ]}
 },
 {
+"slug": "ka-impfung-zuordnen",
+"titel": "Wissenscheck: Schutzimpfung oder Heilimpfung?",
+"kurz": "Die Unterschiede der beiden Impfarten zuordnen",
+"typ": "zuordnen",
+"anleitung": "Wähle für jede Frage die passende Antwort. Achte genau darauf, ob nach der Schutzimpfung oder nach der Heilimpfung gefragt ist. Die Lösung kannst du ansehen, sobald alles zugeordnet ist.",
+"daten": {"paare": [
+ {"links": "Schutzimpfung: anderer Name", "rechts": "aktive Immunisierung"},
+ {"links": "Heilimpfung: anderer Name", "rechts": "passive Immunisierung"},
+ {"links": "Schutzimpfung: Was wird gespritzt?", "rechts": "abgeschwächte oder abgetötete Erreger oder Teile davon"},
+ {"links": "Heilimpfung: Was wird gespritzt?", "rechts": "fertige Antikörper (Heilserum)"},
+ {"links": "Schutzimpfung: Was macht der Körper?", "rechts": "Er bildet selbst Antikörper und Gedächtniszellen."},
+ {"links": "Heilimpfung: Was macht der Körper?", "rechts": "Er nutzt die fremden Antikörper und bildet selbst keine."},
+ {"links": "Schutzimpfung: Wann wirkt sie?", "rechts": "nach einigen Tagen bis Wochen"},
+ {"links": "Heilimpfung: Wann wirkt sie?", "rechts": "sofort"},
+ {"links": "Schutzimpfung: Wie lange schützt sie?", "rechts": "lange, oft viele Jahre"},
+ {"links": "Heilimpfung: Wie lange schützt sie?", "rechts": "nur wenige Wochen"},
+ {"links": "Schutzimpfung: Wofür wird sie eingesetzt?", "rechts": "zur Vorbeugung, bevor man Kontakt mit dem Erreger hat"},
+ {"links": "Heilimpfung: Wofür wird sie eingesetzt?", "rechts": "zur Behandlung, wenn man sich vielleicht schon angesteckt hat"},
+ {"links": "Schutzimpfung: Beispiel", "rechts": "Masernimpfung im Kleinkindalter"},
+ {"links": "Heilimpfung: Beispiel", "rechts": "Tetanus-Antikörper nach einer verschmutzten Wunde ohne Impfschutz"}
+]}
+},
+{
 "slug": "ka-lueckentext-bakterien",
 "titel": "Lückentext: Bakterien und Viren",
 "kurz": "Die wichtigsten Fachbegriffe im Zusammenhang",

@@ -556,6 +556,7 @@ EXTRA_SYMBOLE = {
     "quiz-wer-bin-ich": _sym_quiz,
     "ka-fachbegriffe": _sym_training,
     "ka-wissenscheck": _sym_training,
+    "ka-impfung-zuordnen": _sym_training,
     "ka-lueckentext-bakterien": _sym_training,
     "ka-virusvermehrung": _sym_reihenfolge,
     "ka-krankheitsverlauf": _sym_reihenfolge,
